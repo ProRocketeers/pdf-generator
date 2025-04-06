@@ -1,0 +1,73 @@
+basePath: /api/v1
+definitions:
+  routes.GenerateRequest:
+    properties:
+      template:
+        example: https://example.com/template.adoc
+        type: string
+      variables:
+        $ref: '#/definitions/routes.TemplateVariables'
+    required:
+    - template
+    type: object
+  routes.TemplateVariables:
+    properties:
+      amount:
+        example: "100.00"
+        type: string
+      name:
+        example: John Doe
+        type: string
+    type: object
+info:
+  contact: {}
+  description: This is a PDF Generator API server.
+  title: PDF Generator API
+  version: "1.0"
+paths:
+  /api/v1/generate:
+    post:
+      consumes:
+      - application/json
+      description: Generate a PDF document from template based on the provided variables
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/routes.GenerateRequest'
+      produces:
+      - application/pdf
+      responses:
+        "200":
+          description: PDF file
+          schema:
+            type: file
+        "400":
+          description: Invalid input
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Generate something
+      tags:
+      - PDF Generate
+  /api/v1/health:
+    get:
+      description: Check if the service is running
+      responses:
+        "200":
+          description: Service is healthy
+          schema:
+            type: string
+        "500":
+          description: Service is not healthy
+          schema:
+            type: string
+      summary: Health check
+      tags:
+      - System
+swagger: "2.0"
