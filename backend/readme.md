@@ -114,7 +114,7 @@ The API documentation is generated using **Swagger** and can be accessed at `/ap
   - `templateId`: The ID of the template to use.
   - `data`: The data to populate the template with.
 
-  ````json
+  ```json
   {
     "templateId": GUID,
     "data": {
