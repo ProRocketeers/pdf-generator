@@ -8,7 +8,32 @@ install go <https://go.dev/doc/install>
 go version
 ```
 
+add line to your `~/.bash_profile` or `~/.zshrc`
+
+```text
+export PATH=$PATH:$(go env GOPATH)/bin
+```
+
+
+install swaggo
+
+```shell
+go install github.com/swaggo/swag/cmd/swag@latest
+```
+
+check if swaggo is successfully installed
+
+```shell
+swag --version
+```
+
 ## Run the service
+
+### Move to the service directory
+
+```shell
+cd service
+```
 
 ### Install dependencies
 
