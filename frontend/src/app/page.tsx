@@ -1,19 +1,26 @@
 import Image from "next/image";
-import styles from "./page.module.css";
+import { Typography, Box } from "@mui/material";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
+    <Box>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        gap={4}
+      >
+        {/*TODO: Remove or replace this with a proper logo*/}
         <Image
-          className={styles.logo}
           src="/next.svg"
           alt="Next.js logo"
           width={180}
           height={38}
           priority
         />
-      </main>
-    </div>
+        <Typography variant='h1'>PDF Generator</Typography>
+      </Box>
+    </Box>
   );
 }
