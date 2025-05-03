@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"log"
 	"net/http"
 	"sync"
 	"time"
@@ -23,8 +22,6 @@ func (rateLimiter *FixedRateLimiter) Allow(ip string) (bool, time.Duration) {
 	rateLimiter.RLock()
 	count, exists := rateLimiter.clients[ip]
 	rateLimiter.RUnlock()
-
-	log.Printf("Rate limit check for %s: %d ", ip, count)
 
 	if !exists || count < rateLimiter.Limit {
 		rateLimiter.Lock()
@@ -55,8 +52,6 @@ func RateLimiter(rateLimiter *FixedRateLimiter) func(next http.Handler) http.Han
 		return http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
 			if rateLimiter.Enabled {
 				if allow, retry := rateLimiter.Allow(request.RemoteAddr); !allow {
-					log.Printf("⚠️ Rate limit exceeded for %s on route %s, retry after %v", request.RemoteAddr, request.URL.Path, retry)
-
 					response.Header().Set("Retry-After", retry.String())
 					response.WriteHeader(http.StatusTooManyRequests)
 					response.Write([]byte("Rate limit exceeded"))
