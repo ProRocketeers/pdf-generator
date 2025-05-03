@@ -7,12 +7,18 @@ import (
 	"pdf-generator/utils"
 )
 
+// Version is the version of the application.
+// It is set during the build process using the -ldflags flag.
+var Version = "dev"
+
 //	@title			PDF Generator API
 //	@version		1.0
 //	@description	This is a PDF Generator API server.
 
 // @BasePath	/api/v1
 func main() {
+	log.Printf("Hello from PDF Generator service %v", Version)
+
 	utils.LoadEnvs()
 
 	port := utils.GetEnv("PORT", "8080")
