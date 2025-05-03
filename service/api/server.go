@@ -7,8 +7,10 @@ import (
 	"pdf-generator/api/routes"
 	"pdf-generator/docs"
 	"pdf-generator/infrastracture"
+	"time"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
@@ -24,6 +26,12 @@ func PrepareServer(config *infrastracture.Config) (*Server, error) {
 	}
 
 	server := chi.NewRouter()
+
+	server.Use(middleware.RequestID)
+	server.Use(middleware.RealIP)
+	server.Use(middleware.Logger)
+	server.Use(middleware.Recoverer)
+	server.Use(middleware.Timeout(time.Duration(config.Timeout)))
 
 	// Set up swagger
 	docs.SwaggerInfo.Title = "PDF Generator API"
