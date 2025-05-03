@@ -16,13 +16,24 @@ func main() {
 	utils.LoadEnvs()
 
 	port := utils.GetEnv("PORT", "8080")
-	timeout := 10 // utils.GetEnv("TIMEOUT", "10") // Cast to int is needed
+	host := utils.GetEnv("HOST", "localhost")
+	timeout := 1000 // utils.GetEnv("TIMEOUT", "1000") // Cast to int is needed
 
-	config := &api.Config{Port: port, Timeout: timeout}
+	config := &api.Config{
+		Port:    port,
+		Host:    host,
+		Timeout: timeout,
+	}
 
-	err := api.StartServer(config)
-	if err != nil {
-		log.Printf("🔥 Error starting server: %v", err)
-		log.Fatal(err)
+	server, prepErr := api.PrepareServer(config)
+	if prepErr != nil {
+		log.Printf("🔥 Error preparing server: %v", prepErr)
+		log.Fatal(prepErr)
+	}
+
+	startErr := api.StartServer(config, server)
+	if startErr != nil {
+		log.Printf("🔥 Error starting server: %v", startErr)
+		log.Fatal(startErr)
 	}
 }

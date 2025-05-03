@@ -6,32 +6,34 @@ import (
 	"net/http"
 	"pdf-generator/api/routes"
 	"pdf-generator/docs"
-	"time"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
-func StartServer(config *Config) error {
-	const host = "localhost"
+// Server is a type alias for *http.Server
+type Server = chi.Mux
 
-	r := chi.NewRouter()
+func PrepareServer(config *Config) (*Server, error) {
+	if config == nil {
+		return nil, fmt.Errorf("config cannot be nil")
+	}
+	if config.Host == "" || config.Port == "" {
+		return nil, fmt.Errorf("host and port must be specified in the config")
+	}
 
+	server := chi.NewRouter()
+
+	// Set up swagger
+	docs.SwaggerInfo.Title = "PDF Generator API"
+	docs.SwaggerInfo.Description = "This is a PDF Generator API server."
 	docs.SwaggerInfo.BasePath = "/"
-	docs.SwaggerInfo.Host = fmt.Sprintf("%s:%s", host, config.Port)
+	docs.SwaggerInfo.Host = fmt.Sprintf("%s:%s", config.Host, config.Port)
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
-	docs.SwaggerInfo.Version = "1.0"
-
-	// Set up middleware
-	r.Use(middleware.Logger)
-	r.Use(middleware.Recoverer)
-	r.Use(middleware.RequestID)
-	r.Use(middleware.RealIP)
-	r.Use(middleware.Timeout(time.Duration(config.Timeout) * time.Second))
+	docs.SwaggerInfo.Version = "1.0" // TODO: Get version from file
 
 	// Set up the router
-	r.Route("/api", func(r chi.Router) {
+	server.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
 			r.Get("/swagger", func(w http.ResponseWriter, r *http.Request) {
 				http.Redirect(w, r, "/api/v1/swagger/index.html", http.StatusMovedPermanently)
@@ -43,7 +45,11 @@ func StartServer(config *Config) error {
 		})
 	})
 
+	return server, nil
+}
+
+func StartServer(config *Config, server *Server) error {
 	// Start the server
-	log.Printf("🚀 Starting server at http://%s:%s", host, config.Port)
-	return http.ListenAndServe(":"+config.Port, r)
+	log.Printf("🚀 Starting server at http://%s:%s", config.Host, config.Port)
+	return http.ListenAndServe(":"+config.Port, server)
 }
