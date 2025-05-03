@@ -70,16 +70,10 @@ const docTemplate = `{
                 "summary": "Health check",
                 "responses": {
                     "200": {
-                        "description": "Service is healthy",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "description": "Service is healthy"
                     },
                     "500": {
-                        "description": "Service is not healthy",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "description": "Service is not healthy"
                     }
                 }
             }
