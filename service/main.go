@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"pdf-generator/api"
-	"pdf-generator/utils"
+	"pdf-generator/infrastracture"
 )
 
 // Version is the version of the application.
@@ -14,17 +14,10 @@ var Version = "dev"
 func main() {
 	log.Printf("Hello from PDF Generator service %v", Version)
 
-	utils.LoadEnvs()
-
-	port := utils.GetEnv("PORT", "8080")
-	host := utils.GetEnv("HOST", "localhost")
-	timeout := 1000 // utils.GetEnv("TIMEOUT", "1000") // Cast to int is needed
-
-	config := &api.Config{
-		Version: Version,
-		Port:    port,
-		Host:    host,
-		Timeout: timeout,
+	config, configErr := infrastracture.LoadConfig(Version)
+	if configErr != nil {
+		log.Printf("🔥 Error loading config: %v", configErr)
+		log.Fatal(configErr)
 	}
 
 	server, prepErr := api.PrepareServer(config)

@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"pdf-generator/api/routes"
 	"pdf-generator/docs"
+	"pdf-generator/infrastracture"
 
 	"github.com/go-chi/chi/v5"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
@@ -14,7 +15,7 @@ import (
 // Server is a type alias for *http.Server
 type Server = chi.Mux
 
-func PrepareServer(config *Config) (*Server, error) {
+func PrepareServer(config *infrastracture.Config) (*Server, error) {
 	if config == nil {
 		return nil, fmt.Errorf("config cannot be nil")
 	}
@@ -48,7 +49,7 @@ func PrepareServer(config *Config) (*Server, error) {
 	return server, nil
 }
 
-func StartServer(config *Config, server *Server) error {
+func StartServer(config *infrastracture.Config, server *Server) error {
 	// Start the server
 	log.Printf("🚀 Starting server at http://%s:%s", config.Host, config.Port)
 	return http.ListenAndServe(":"+config.Port, server)

@@ -1,8 +1,7 @@
 package api
 
-type Config struct {
-	Version string
-	Port    string
-	Host    string
-	Timeout int
+import "time"
+
+type Limiter interface {
+	Allow(ip string) (bool, time.Duration)
 }
