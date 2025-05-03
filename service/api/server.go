@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	ourMiddleware "pdf-generator/api/middleware"
 	"pdf-generator/api/routes"
 	"pdf-generator/docs"
 	"pdf-generator/infrastracture"
@@ -27,11 +28,19 @@ func PrepareServer(config *infrastracture.Config) (*Server, error) {
 
 	server := chi.NewRouter()
 
+	// Set up middleware
 	server.Use(middleware.RequestID)
 	server.Use(middleware.RealIP)
 	server.Use(middleware.Logger)
 	server.Use(middleware.Recoverer)
 	server.Use(middleware.Timeout(time.Duration(config.Timeout)))
+
+	rateLimiter := &ourMiddleware.FixedRateLimiter{
+		Enabled:  true,
+		Limit:    10,
+		Duration: 5 * time.Second,
+	}
+	server.Use(ourMiddleware.RateLimiter(rateLimiter))
 
 	// Set up swagger
 	docs.SwaggerInfo.Title = "PDF Generator API"
