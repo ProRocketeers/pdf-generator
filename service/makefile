@@ -1,7 +1,9 @@
 .PHONY: run
 run:
 	@echo "Running the application..."
-	@go run main.go
+# @go run main.go
+# Run with air for hot reloading
+	@air
 
 .PHONY: gen-swagger
 gen-swagger:
