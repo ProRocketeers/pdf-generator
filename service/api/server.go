@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"pdf-generator/api/routes"
@@ -13,10 +14,12 @@ import (
 )
 
 func StartServer(config *Config) error {
+	const host = "localhost"
+
 	r := chi.NewRouter()
 
 	docs.SwaggerInfo.BasePath = "/"
-	docs.SwaggerInfo.Host = "localhost:8081"
+	docs.SwaggerInfo.Host = fmt.Sprintf("%s:%s", host, config.Port)
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 	docs.SwaggerInfo.Version = "1.0"
 
@@ -41,6 +44,6 @@ func StartServer(config *Config) error {
 	})
 
 	// Start the server
-	log.Printf("🚀 Starting server on port %s", config.Port)
+	log.Printf("🚀 Starting server at http://%s:%s", host, config.Port)
 	return http.ListenAndServe(":"+config.Port, r)
 }
