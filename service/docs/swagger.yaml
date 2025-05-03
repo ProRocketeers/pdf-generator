@@ -1,4 +1,3 @@
-basePath: /api/v1
 definitions:
   routes.GenerateRequest:
     properties:
@@ -21,9 +20,6 @@ definitions:
     type: object
 info:
   contact: {}
-  description: This is a PDF Generator API server.
-  title: PDF Generator API
-  version: "1.0"
 paths:
   /api/v1/generate:
     post:

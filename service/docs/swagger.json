@@ -1,12 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a PDF Generator API server.",
-        "title": "PDF Generator API",
-        "contact": {},
-        "version": "1.0"
+        "contact": {}
     },
-    "basePath": "/api/v1",
     "paths": {
         "/api/v1/generate": {
             "post": {

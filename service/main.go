@@ -11,11 +11,6 @@ import (
 // It is set during the build process using the -ldflags flag.
 var Version = "dev"
 
-//	@title			PDF Generator API
-//	@version		1.0
-//	@description	This is a PDF Generator API server.
-
-// @BasePath	/api/v1
 func main() {
 	log.Printf("Hello from PDF Generator service %v", Version)
 
@@ -26,6 +21,7 @@ func main() {
 	timeout := 1000 // utils.GetEnv("TIMEOUT", "1000") // Cast to int is needed
 
 	config := &api.Config{
+		Version: Version,
 		Port:    port,
 		Host:    host,
 		Timeout: timeout,

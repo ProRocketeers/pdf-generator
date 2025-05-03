@@ -30,7 +30,7 @@ func PrepareServer(config *Config) (*Server, error) {
 	docs.SwaggerInfo.BasePath = "/"
 	docs.SwaggerInfo.Host = fmt.Sprintf("%s:%s", config.Host, config.Port)
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
-	docs.SwaggerInfo.Version = "1.0" // TODO: Get version from file
+	docs.SwaggerInfo.Version = config.Version
 
 	// Set up the router
 	server.Route("/api", func(r chi.Router) {
