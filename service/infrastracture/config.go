@@ -3,6 +3,7 @@ package infrastracture
 import (
 	"pdf-generator/utils"
 	"strconv"
+	"strings"
 )
 
 func LoadConfig(version string) (*Config, error) {
@@ -11,6 +12,7 @@ func LoadConfig(version string) (*Config, error) {
 	port := utils.GetEnv("PORT", "8080")
 	host := utils.GetEnv("HOST", "localhost")
 	timeoutStr := utils.GetEnv("TIMEOUT", "1000")
+	corsOriginsStr := utils.GetEnv("CORS_ORIGINS", "localhost")
 
 	// Convert timeout to integer
 	timeout, err := strconv.Atoi(timeoutStr)
@@ -18,10 +20,14 @@ func LoadConfig(version string) (*Config, error) {
 		return nil, err
 	}
 
+	// Split CORS origins into a slice
+	cors := strings.Split(corsOriginsStr, ",")
+
 	return &Config{
-		Version: version,
-		Port:    port,
-		Host:    host,
-		Timeout: timeout,
+		Version:     version,
+		Port:        port,
+		Host:        host,
+		Timeout:     timeout,
+		CorsOrigins: cors,
 	}, nil
 }

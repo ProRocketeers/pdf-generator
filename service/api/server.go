@@ -12,6 +12,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
 	httpSwagger "github.com/swaggo/http-swagger/v2"
 )
 
@@ -34,6 +35,10 @@ func PrepareServer(config *infrastracture.Config) (*Server, error) {
 	server.Use(middleware.Logger)
 	server.Use(middleware.Recoverer)
 	server.Use(middleware.Timeout(time.Duration(config.Timeout)))
+
+	server.Use(cors.Handler(cors.Options{
+		AllowedOrigins: config.CorsOrigins,
+	}))
 
 	rateLimiter := &ourMiddleware.FixedRateLimiter{
 		Enabled:  true,
