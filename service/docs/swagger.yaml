@@ -1,31 +1,137 @@
-basePath: /api/v1
 definitions:
-  routes.GenerateRequest:
+  generate.GenerateAdocRequest:
     properties:
       template:
-        example: https://example.com/template.adoc
+        example: https://drive.google.com/uc?export=download&id=1qZS9uxSwsrHSMudfpDTbWQHBIM5vOnrF
         type: string
       variables:
-        $ref: '#/definitions/routes.TemplateVariables'
+        additionalProperties:
+          type: string
+        example:
+          amount: "100.00"
+          currency: EUR
+          date: "2025-05-04"
+          name: John Doe
+          reference: ABC123
+        type: object
     required:
     - template
     type: object
-  routes.TemplateVariables:
+  generate.GenerateHtmlRequest:
     properties:
-      amount:
-        example: "100.00"
+      template:
+        example: https://drive.google.com/uc?export=download&id=16oauTQqVnJtJEl8unMYyUpH6BILRS97C
         type: string
-      name:
-        example: John Doe
+      variables:
+        additionalProperties:
+          type: string
+        example:
+          amount: "100.00"
+          currency: EUR
+          date: "2025-05-04"
+          name: John Doe
+          reference: ABC123
+        type: object
+    required:
+    - template
+    type: object
+  routes.BySizeStat:
+    properties:
+      Frees:
+        type: integer
+      Mallocs:
+        type: integer
+      Size:
+        type: integer
+    type: object
+  routes.Memstats:
+    properties:
+      Alloc:
+        type: integer
+      BuckHashSys:
+        type: integer
+      BySize:
+        items:
+          $ref: '#/definitions/routes.BySizeStat'
+        type: array
+      DebugGC:
+        type: boolean
+      EnableGC:
+        type: boolean
+      Frees:
+        type: integer
+      GCCPUFraction:
+        type: number
+      GCSys:
+        type: integer
+      HeapAlloc:
+        type: integer
+      HeapIdle:
+        type: integer
+      HeapInuse:
+        type: integer
+      HeapObjects:
+        type: integer
+      HeapReleased:
+        type: integer
+      HeapSys:
+        type: integer
+      LastGC:
+        type: integer
+      Lookups:
+        type: integer
+      MCacheInuse:
+        type: integer
+      MCacheSys:
+        type: integer
+      MSpanInuse:
+        type: integer
+      MSpanSys:
+        type: integer
+      Mallocs:
+        type: integer
+      NextGC:
+        type: integer
+      NumForcedGC:
+        type: integer
+      NumGC:
+        type: integer
+      OtherSys:
+        type: integer
+      PauseEnd:
+        items:
+          type: integer
+        type: array
+      PauseNs:
+        items:
+          type: integer
+        type: array
+      PauseTotalNs:
+        type: integer
+      StackInuse:
+        type: integer
+      StackSys:
+        type: integer
+      Sys:
+        type: integer
+      TotalAlloc:
+        type: integer
+    type: object
+  routes.MetricsResponse:
+    properties:
+      cmdline:
+        items:
+          type: string
+        type: array
+      memstats:
+        $ref: '#/definitions/routes.Memstats'
+      version:
         type: string
     type: object
 info:
   contact: {}
-  description: This is a PDF Generator API server.
-  title: PDF Generator API
-  version: "1.0"
 paths:
-  /api/v1/generate:
+  /api/v1/generate/adoc:
     post:
       consumes:
       - application/json
@@ -36,7 +142,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/routes.GenerateRequest'
+          $ref: '#/definitions/generate.GenerateAdocRequest'
       produces:
       - application/pdf
       responses:
@@ -55,19 +161,58 @@ paths:
       summary: Generate something
       tags:
       - PDF Generate
-  /api/v1/health:
+  /api/v1/generate/html:
+    post:
+      consumes:
+      - application/json
+      description: Generate a PDF document from template based on the provided variables
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/generate.GenerateHtmlRequest'
+      produces:
+      - application/pdf
+      responses:
+        "200":
+          description: PDF file
+          schema:
+            type: file
+        "400":
+          description: Invalid input
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Generate something
+      tags:
+      - PDF Generate
+  /health:
     get:
       description: Check if the service is running
       responses:
         "200":
           description: Service is healthy
-          schema:
-            type: string
         "500":
           description: Service is not healthy
-          schema:
-            type: string
       summary: Health check
+      tags:
+      - System
+  /metrics:
+    get:
+      description: Get service metrics
+      responses:
+        "200":
+          description: Service metrics
+          schema:
+            $ref: '#/definitions/routes.MetricsResponse'
+        "500":
+          description: Internal server error
+      summary: Metrics
       tags:
       - System
 swagger: "2.0"

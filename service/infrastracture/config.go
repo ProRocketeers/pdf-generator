@@ -1,0 +1,33 @@
+package infrastracture
+
+import (
+	"pdf-generator/utils"
+	"strconv"
+	"strings"
+)
+
+func LoadConfig(version string) (*Config, error) {
+	utils.LoadEnvs()
+
+	port := utils.GetEnv("PORT", "8080")
+	host := utils.GetEnv("HOST", "localhost")
+	timeoutStr := utils.GetEnv("TIMEOUT", "1000")
+	corsOriginsStr := utils.GetEnv("CORS_ORIGINS", "localhost")
+
+	// Convert timeout to integer
+	timeout, err := strconv.Atoi(timeoutStr)
+	if err != nil {
+		return nil, err
+	}
+
+	// Split CORS origins into a slice
+	cors := strings.Split(corsOriginsStr, ",")
+
+	return &Config{
+		Version:     version,
+		Port:        port,
+		Host:        host,
+		Timeout:     timeout,
+		CorsOrigins: cors,
+	}, nil
+}

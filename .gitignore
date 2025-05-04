@@ -44,3 +44,6 @@ Temporary Items
 
 # Environment files
 .env
+
+# Build output
+**/bin/*

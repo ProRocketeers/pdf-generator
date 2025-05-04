@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/generate": {
+        "/api/v1/generate/adoc": {
             "post": {
                 "description": "Generate a PDF document from template based on the provided variables",
                 "consumes": [
@@ -35,7 +35,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/routes.GenerateRequest"
+                            "$ref": "#/definitions/generate.GenerateAdocRequest"
                         }
                     }
                 ],
@@ -61,7 +61,53 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/health": {
+        "/api/v1/generate/html": {
+            "post": {
+                "description": "Generate a PDF document from template based on the provided variables",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/pdf"
+                ],
+                "tags": [
+                    "PDF Generate"
+                ],
+                "summary": "Generate something",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/generate.GenerateHtmlRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PDF file",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/health": {
             "get": {
                 "description": "Check if the service is running",
                 "tags": [
@@ -70,23 +116,37 @@ const docTemplate = `{
                 "summary": "Health check",
                 "responses": {
                     "200": {
-                        "description": "Service is healthy",
+                        "description": "Service is healthy"
+                    },
+                    "500": {
+                        "description": "Service is not healthy"
+                    }
+                }
+            }
+        },
+        "/metrics": {
+            "get": {
+                "description": "Get service metrics",
+                "tags": [
+                    "System"
+                ],
+                "summary": "Metrics",
+                "responses": {
+                    "200": {
+                        "description": "Service metrics",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/routes.MetricsResponse"
                         }
                     },
                     "500": {
-                        "description": "Service is not healthy",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "description": "Internal server error"
                     }
                 }
             }
         }
     },
     "definitions": {
-        "routes.GenerateRequest": {
+        "generate.GenerateAdocRequest": {
             "type": "object",
             "required": [
                 "template"
@@ -94,23 +154,186 @@ const docTemplate = `{
             "properties": {
                 "template": {
                     "type": "string",
-                    "example": "https://example.com/template.adoc"
+                    "example": "https://drive.google.com/uc?export=download\u0026id=1qZS9uxSwsrHSMudfpDTbWQHBIM5vOnrF"
                 },
                 "variables": {
-                    "$ref": "#/definitions/routes.TemplateVariables"
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "example": {
+                        "amount": "100.00",
+                        "currency": "EUR",
+                        "date": "2025-05-04",
+                        "name": "John Doe",
+                        "reference": "ABC123"
+                    }
                 }
             }
         },
-        "routes.TemplateVariables": {
+        "generate.GenerateHtmlRequest": {
+            "type": "object",
+            "required": [
+                "template"
+            ],
+            "properties": {
+                "template": {
+                    "type": "string",
+                    "example": "https://drive.google.com/uc?export=download\u0026id=16oauTQqVnJtJEl8unMYyUpH6BILRS97C"
+                },
+                "variables": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "example": {
+                        "amount": "100.00",
+                        "currency": "EUR",
+                        "date": "2025-05-04",
+                        "name": "John Doe",
+                        "reference": "ABC123"
+                    }
+                }
+            }
+        },
+        "routes.BySizeStat": {
             "type": "object",
             "properties": {
-                "amount": {
-                    "type": "string",
-                    "example": "100.00"
+                "Frees": {
+                    "type": "integer"
                 },
-                "name": {
-                    "type": "string",
-                    "example": "John Doe"
+                "Mallocs": {
+                    "type": "integer"
+                },
+                "Size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "routes.Memstats": {
+            "type": "object",
+            "properties": {
+                "Alloc": {
+                    "type": "integer"
+                },
+                "BuckHashSys": {
+                    "type": "integer"
+                },
+                "BySize": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/routes.BySizeStat"
+                    }
+                },
+                "DebugGC": {
+                    "type": "boolean"
+                },
+                "EnableGC": {
+                    "type": "boolean"
+                },
+                "Frees": {
+                    "type": "integer"
+                },
+                "GCCPUFraction": {
+                    "type": "number"
+                },
+                "GCSys": {
+                    "type": "integer"
+                },
+                "HeapAlloc": {
+                    "type": "integer"
+                },
+                "HeapIdle": {
+                    "type": "integer"
+                },
+                "HeapInuse": {
+                    "type": "integer"
+                },
+                "HeapObjects": {
+                    "type": "integer"
+                },
+                "HeapReleased": {
+                    "type": "integer"
+                },
+                "HeapSys": {
+                    "type": "integer"
+                },
+                "LastGC": {
+                    "type": "integer"
+                },
+                "Lookups": {
+                    "type": "integer"
+                },
+                "MCacheInuse": {
+                    "type": "integer"
+                },
+                "MCacheSys": {
+                    "type": "integer"
+                },
+                "MSpanInuse": {
+                    "type": "integer"
+                },
+                "MSpanSys": {
+                    "type": "integer"
+                },
+                "Mallocs": {
+                    "type": "integer"
+                },
+                "NextGC": {
+                    "type": "integer"
+                },
+                "NumForcedGC": {
+                    "type": "integer"
+                },
+                "NumGC": {
+                    "type": "integer"
+                },
+                "OtherSys": {
+                    "type": "integer"
+                },
+                "PauseEnd": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "PauseNs": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "PauseTotalNs": {
+                    "type": "integer"
+                },
+                "StackInuse": {
+                    "type": "integer"
+                },
+                "StackSys": {
+                    "type": "integer"
+                },
+                "Sys": {
+                    "type": "integer"
+                },
+                "TotalAlloc": {
+                    "type": "integer"
+                }
+            }
+        },
+        "routes.MetricsResponse": {
+            "type": "object",
+            "properties": {
+                "cmdline": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "memstats": {
+                    "$ref": "#/definitions/routes.Memstats"
+                },
+                "version": {
+                    "type": "string"
                 }
             }
         }
@@ -119,12 +342,12 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
+	Version:          "",
 	Host:             "",
-	BasePath:         "/api/v1",
+	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "PDF Generator API",
-	Description:      "This is a PDF Generator API server.",
+	Title:            "",
+	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

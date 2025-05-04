@@ -4,25 +4,31 @@ import (
 	"log"
 
 	"pdf-generator/api"
-	"pdf-generator/utils"
+	"pdf-generator/infrastracture"
 )
 
-//	@title			PDF Generator API
-//	@version		1.0
-//	@description	This is a PDF Generator API server.
+// Version is the version of the application.
+// It is set during the build process using the -ldflags flag.
+var Version = "dev"
 
-// @BasePath	/api/v1
 func main() {
-	utils.LoadEnvs()
+	log.Printf("Hello from PDF Generator service %v", Version)
 
-	port := utils.GetEnv("PORT", "8080")
-	timeout := 10 // utils.GetEnv("TIMEOUT", "10") // Cast to int is needed
+	config, configErr := infrastracture.LoadConfig(Version)
+	if configErr != nil {
+		log.Printf("🔥 Error loading config: %v", configErr)
+		log.Fatal(configErr)
+	}
 
-	config := &api.Config{Port: port, Timeout: timeout}
+	server, prepErr := api.PrepareServer(config)
+	if prepErr != nil {
+		log.Printf("🔥 Error preparing server: %v", prepErr)
+		log.Fatal(prepErr)
+	}
 
-	err := api.StartServer(config)
-	if err != nil {
-		log.Printf("🔥 Error starting server: %v", err)
-		log.Fatal(err)
+	startErr := api.StartServer(config, server)
+	if startErr != nil {
+		log.Printf("🔥 Error starting server: %v", startErr)
+		log.Fatal(startErr)
 	}
 }
