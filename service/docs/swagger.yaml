@@ -1,4 +1,13 @@
 definitions:
+  routes.BySizeStat:
+    properties:
+      Frees:
+        type: integer
+      Mallocs:
+        type: integer
+      Size:
+        type: integer
+    type: object
   routes.GenerateRequest:
     properties:
       template:
@@ -8,6 +17,90 @@ definitions:
         $ref: '#/definitions/routes.TemplateVariables'
     required:
     - template
+    type: object
+  routes.Memstats:
+    properties:
+      Alloc:
+        type: integer
+      BuckHashSys:
+        type: integer
+      BySize:
+        items:
+          $ref: '#/definitions/routes.BySizeStat'
+        type: array
+      DebugGC:
+        type: boolean
+      EnableGC:
+        type: boolean
+      Frees:
+        type: integer
+      GCCPUFraction:
+        type: number
+      GCSys:
+        type: integer
+      HeapAlloc:
+        type: integer
+      HeapIdle:
+        type: integer
+      HeapInuse:
+        type: integer
+      HeapObjects:
+        type: integer
+      HeapReleased:
+        type: integer
+      HeapSys:
+        type: integer
+      LastGC:
+        type: integer
+      Lookups:
+        type: integer
+      MCacheInuse:
+        type: integer
+      MCacheSys:
+        type: integer
+      MSpanInuse:
+        type: integer
+      MSpanSys:
+        type: integer
+      Mallocs:
+        type: integer
+      NextGC:
+        type: integer
+      NumForcedGC:
+        type: integer
+      NumGC:
+        type: integer
+      OtherSys:
+        type: integer
+      PauseEnd:
+        items:
+          type: integer
+        type: array
+      PauseNs:
+        items:
+          type: integer
+        type: array
+      PauseTotalNs:
+        type: integer
+      StackInuse:
+        type: integer
+      StackSys:
+        type: integer
+      Sys:
+        type: integer
+      TotalAlloc:
+        type: integer
+    type: object
+  routes.MetricsResponse:
+    properties:
+      cmdline:
+        items:
+          type: string
+        type: array
+      memstats:
+        $ref: '#/definitions/routes.Memstats'
+      version:
+        type: string
     type: object
   routes.TemplateVariables:
     properties:
@@ -60,6 +153,19 @@ paths:
         "500":
           description: Service is not healthy
       summary: Health check
+      tags:
+      - System
+  /metrics:
+    get:
+      description: Get service metrics
+      responses:
+        "200":
+          description: Service metrics
+          schema:
+            $ref: '#/definitions/routes.MetricsResponse'
+        "500":
+          description: Internal server error
+      summary: Metrics
       tags:
       - System
 swagger: "2.0"

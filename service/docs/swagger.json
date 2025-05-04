@@ -66,9 +66,43 @@
                     }
                 }
             }
+        },
+        "/metrics": {
+            "get": {
+                "description": "Get service metrics",
+                "tags": [
+                    "System"
+                ],
+                "summary": "Metrics",
+                "responses": {
+                    "200": {
+                        "description": "Service metrics",
+                        "schema": {
+                            "$ref": "#/definitions/routes.MetricsResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "routes.BySizeStat": {
+            "type": "object",
+            "properties": {
+                "Frees": {
+                    "type": "integer"
+                },
+                "Mallocs": {
+                    "type": "integer"
+                },
+                "Size": {
+                    "type": "integer"
+                }
+            }
+        },
         "routes.GenerateRequest": {
             "type": "object",
             "required": [
@@ -81,6 +115,133 @@
                 },
                 "variables": {
                     "$ref": "#/definitions/routes.TemplateVariables"
+                }
+            }
+        },
+        "routes.Memstats": {
+            "type": "object",
+            "properties": {
+                "Alloc": {
+                    "type": "integer"
+                },
+                "BuckHashSys": {
+                    "type": "integer"
+                },
+                "BySize": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/routes.BySizeStat"
+                    }
+                },
+                "DebugGC": {
+                    "type": "boolean"
+                },
+                "EnableGC": {
+                    "type": "boolean"
+                },
+                "Frees": {
+                    "type": "integer"
+                },
+                "GCCPUFraction": {
+                    "type": "number"
+                },
+                "GCSys": {
+                    "type": "integer"
+                },
+                "HeapAlloc": {
+                    "type": "integer"
+                },
+                "HeapIdle": {
+                    "type": "integer"
+                },
+                "HeapInuse": {
+                    "type": "integer"
+                },
+                "HeapObjects": {
+                    "type": "integer"
+                },
+                "HeapReleased": {
+                    "type": "integer"
+                },
+                "HeapSys": {
+                    "type": "integer"
+                },
+                "LastGC": {
+                    "type": "integer"
+                },
+                "Lookups": {
+                    "type": "integer"
+                },
+                "MCacheInuse": {
+                    "type": "integer"
+                },
+                "MCacheSys": {
+                    "type": "integer"
+                },
+                "MSpanInuse": {
+                    "type": "integer"
+                },
+                "MSpanSys": {
+                    "type": "integer"
+                },
+                "Mallocs": {
+                    "type": "integer"
+                },
+                "NextGC": {
+                    "type": "integer"
+                },
+                "NumForcedGC": {
+                    "type": "integer"
+                },
+                "NumGC": {
+                    "type": "integer"
+                },
+                "OtherSys": {
+                    "type": "integer"
+                },
+                "PauseEnd": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "PauseNs": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "PauseTotalNs": {
+                    "type": "integer"
+                },
+                "StackInuse": {
+                    "type": "integer"
+                },
+                "StackSys": {
+                    "type": "integer"
+                },
+                "Sys": {
+                    "type": "integer"
+                },
+                "TotalAlloc": {
+                    "type": "integer"
+                }
+            }
+        },
+        "routes.MetricsResponse": {
+            "type": "object",
+            "properties": {
+                "cmdline": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "memstats": {
+                    "$ref": "#/definitions/routes.Memstats"
+                },
+                "version": {
+                    "type": "string"
                 }
             }
         },

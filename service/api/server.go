@@ -6,6 +6,7 @@ import (
 	"net/http"
 	ourMiddleware "pdf-generator/api/middleware"
 	"pdf-generator/api/routes"
+	api_v1 "pdf-generator/api/routes/api/v1"
 	"pdf-generator/docs"
 	"pdf-generator/infrastracture"
 	"time"
@@ -56,15 +57,15 @@ func PrepareServer(config *infrastracture.Config) (*Server, error) {
 	docs.SwaggerInfo.Version = config.Version
 
 	// Set up the router
+	server.Get("/health", routes.GetHealth)
+	server.Get("/metrics", routes.GetMetrics(config))
+	server.Get("/swagger*", httpSwagger.WrapHandler)
+	server.Get("/swagger", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/swagger/index.html", http.StatusMovedPermanently)
+	})
 	server.Route("/api", func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
-			r.Get("/swagger", func(w http.ResponseWriter, r *http.Request) {
-				http.Redirect(w, r, "/api/v1/swagger/index.html", http.StatusMovedPermanently)
-			})
-			r.Get("/swagger*", httpSwagger.WrapHandler)
-
-			r.Get("/health", routes.GetHealth)
-			r.Post("/generate", routes.PostGenerate)
+			r.Post("/generate", api_v1.PostGenerate)
 		})
 	})
 
