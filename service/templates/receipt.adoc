@@ -1,0 +1,40 @@
+= Payment Receipt
+:doctype: article
+:encoding: utf-8
+:lang: en
+:icons: font
+:pdf-theme: default
+:pdf-fontsdir: resources/fonts
+:sectnums:
+:sectnumlevels: 2
+:author: Example Corp
+:email: support@example.com
+:revdate: {date}
+:revnumber: 1.0
+
+== Thank You, {name}!
+
+We confirm that your payment has been successfully received.
+
+[cols="1,1", options="header"]
+|===
+|Field |Value
+
+|**Amount**
+|{amount} {currency}
+
+|**Reference**
+|{reference}
+
+|**Date**
+|{date}
+|===
+
+---
+
+If you have any questions, feel free to contact our support.
+
+Thank you for doing business with us!
+
+*Example Corp*  
+_support@example.com_

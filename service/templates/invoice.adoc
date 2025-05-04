@@ -17,7 +17,7 @@ Ondrova Firma
 
 == Položky
 
-[cols="1,4,1,1", options="header"]
+[cols="1,4,2,2", options="header"]
 |===
 |# |Popis |Cena bez DPH |Cena s DPH
 |1 |Webová aplikace |10 000 Kč |12 100 Kč
