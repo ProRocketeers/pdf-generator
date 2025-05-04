@@ -9,7 +9,7 @@ LDFLAGS = -X 'main.Version=$(VERSION)'
 .PHONY: build
 build:
 	@echo "🔨 Building ${APP_NAME} with version ${VERSION}"
-	@go build -ldflags "$(LDFLAGS)" -o ./bin/
+	go build -ldflags "$(LDFLAGS)" -o ./bin/
 	@echo "✅ Build completed"
 
 .PHONY: run-build
@@ -19,13 +19,14 @@ run-build:
 
 .PHONY: run
 run:
-	@echo "Running the application..."
-# @go run main.go
+# @echo "Running the application..."
+# go run main.go
 # Run with air for hot reloading
+	@echo "🏃 Running the application with air... 💨"
 	@air
 
 .PHONY: gen-swagger
 gen-swagger:
 	@echo "Generating Swagger docs..."
-	@swag init -g main.go && swag fmt
+	swag init -g main.go && swag fmt
 	@echo "Swagger docs generated successfully."
