@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/generate": {
+        "/api/v1/generate/adoc": {
             "post": {
                 "description": "Generate a PDF document from template based on the provided variables",
                 "consumes": [
@@ -35,7 +35,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/routes.GenerateRequest"
+                            "$ref": "#/definitions/generate.GenerateRequest"
                         }
                     }
                 ],
@@ -61,7 +61,53 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/health": {
+        "/api/v1/generate/html": {
+            "post": {
+                "description": "Generate a PDF document from template based on the provided variables",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/pdf"
+                ],
+                "tags": [
+                    "PDF Generate"
+                ],
+                "summary": "Generate something",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/generate.GenerateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PDF file",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/health": {
             "get": {
                 "description": "Check if the service is running",
                 "tags": [
@@ -100,6 +146,28 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "generate.GenerateRequest": {
+            "type": "object",
+            "required": [
+                "template"
+            ],
+            "properties": {
+                "template": {
+                    "type": "string",
+                    "example": "https://example.com/template.adoc"
+                },
+                "variables": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "example": {
+                        "amount": "100.00",
+                        "name": "John Doe"
+                    }
+                }
+            }
+        },
         "routes.BySizeStat": {
             "type": "object",
             "properties": {
@@ -111,21 +179,6 @@ const docTemplate = `{
                 },
                 "Size": {
                     "type": "integer"
-                }
-            }
-        },
-        "routes.GenerateRequest": {
-            "type": "object",
-            "required": [
-                "template"
-            ],
-            "properties": {
-                "template": {
-                    "type": "string",
-                    "example": "https://example.com/template.adoc"
-                },
-                "variables": {
-                    "$ref": "#/definitions/routes.TemplateVariables"
                 }
             }
         },
@@ -253,19 +306,6 @@ const docTemplate = `{
                 },
                 "version": {
                     "type": "string"
-                }
-            }
-        },
-        "routes.TemplateVariables": {
-            "type": "object",
-            "properties": {
-                "amount": {
-                    "type": "string",
-                    "example": "100.00"
-                },
-                "name": {
-                    "type": "string",
-                    "example": "John Doe"
                 }
             }
         }

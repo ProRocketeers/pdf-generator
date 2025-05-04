@@ -6,8 +6,9 @@ import (
 	"net/http"
 	ourMiddleware "pdf-generator/api/middleware"
 	"pdf-generator/api/routes"
-	api_v1 "pdf-generator/api/routes/api/v1"
+	api_v1_generate "pdf-generator/api/routes/api/v1/generate"
 	"pdf-generator/docs"
+	"pdf-generator/domain/pdf"
 	"pdf-generator/infrastracture"
 	"time"
 
@@ -64,8 +65,12 @@ func PrepareServer(config *infrastracture.Config) (*Server, error) {
 		http.Redirect(w, r, "/swagger/index.html", http.StatusMovedPermanently)
 	})
 	server.Route("/api", func(r chi.Router) {
-		r.Route("/v1", func(r chi.Router) {
-			r.Post("/generate", api_v1.PostGenerate)
+		r.Route("/v1/generate", func(r chi.Router) {
+			// TODO: Get service from params
+			pdfDispatcher := pdf.NewPdfDispatcher()
+			// r.Post("/adoc", api_v1.PostGenerate(pdfDispatcher))
+			r.Post("/adoc", api_v1_generate.PostAdoc(pdfDispatcher))
+			r.Post("/html", api_v1_generate.PostHtml(pdfDispatcher))
 		})
 	})
 

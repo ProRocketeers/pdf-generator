@@ -1,4 +1,19 @@
 definitions:
+  generate.GenerateRequest:
+    properties:
+      template:
+        example: https://example.com/template.adoc
+        type: string
+      variables:
+        additionalProperties:
+          type: string
+        example:
+          amount: "100.00"
+          name: John Doe
+        type: object
+    required:
+    - template
+    type: object
   routes.BySizeStat:
     properties:
       Frees:
@@ -7,16 +22,6 @@ definitions:
         type: integer
       Size:
         type: integer
-    type: object
-  routes.GenerateRequest:
-    properties:
-      template:
-        example: https://example.com/template.adoc
-        type: string
-      variables:
-        $ref: '#/definitions/routes.TemplateVariables'
-    required:
-    - template
     type: object
   routes.Memstats:
     properties:
@@ -102,19 +107,10 @@ definitions:
       version:
         type: string
     type: object
-  routes.TemplateVariables:
-    properties:
-      amount:
-        example: "100.00"
-        type: string
-      name:
-        example: John Doe
-        type: string
-    type: object
 info:
   contact: {}
 paths:
-  /api/v1/generate:
+  /api/v1/generate/adoc:
     post:
       consumes:
       - application/json
@@ -125,7 +121,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/routes.GenerateRequest'
+          $ref: '#/definitions/generate.GenerateRequest'
       produces:
       - application/pdf
       responses:
@@ -144,7 +140,37 @@ paths:
       summary: Generate something
       tags:
       - PDF Generate
-  /api/v1/health:
+  /api/v1/generate/html:
+    post:
+      consumes:
+      - application/json
+      description: Generate a PDF document from template based on the provided variables
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/generate.GenerateRequest'
+      produces:
+      - application/pdf
+      responses:
+        "200":
+          description: PDF file
+          schema:
+            type: file
+        "400":
+          description: Invalid input
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Generate something
+      tags:
+      - PDF Generate
+  /health:
     get:
       description: Check if the service is running
       responses:
