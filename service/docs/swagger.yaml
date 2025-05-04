@@ -1,15 +1,36 @@
 definitions:
-  generate.GenerateRequest:
+  generate.GenerateAdocRequest:
     properties:
       template:
-        example: https://example.com/template.adoc
+        example: https://drive.google.com/uc?export=download&id=1qZS9uxSwsrHSMudfpDTbWQHBIM5vOnrF
         type: string
       variables:
         additionalProperties:
           type: string
         example:
           amount: "100.00"
+          currency: EUR
+          date: "2025-05-04"
           name: John Doe
+          reference: ABC123
+        type: object
+    required:
+    - template
+    type: object
+  generate.GenerateHtmlRequest:
+    properties:
+      template:
+        example: https://drive.google.com/uc?export=download&id=16oauTQqVnJtJEl8unMYyUpH6BILRS97C
+        type: string
+      variables:
+        additionalProperties:
+          type: string
+        example:
+          amount: "100.00"
+          currency: EUR
+          date: "2025-05-04"
+          name: John Doe
+          reference: ABC123
         type: object
     required:
     - template
@@ -121,7 +142,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/generate.GenerateRequest'
+          $ref: '#/definitions/generate.GenerateAdocRequest'
       produces:
       - application/pdf
       responses:
@@ -151,7 +172,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/generate.GenerateRequest'
+          $ref: '#/definitions/generate.GenerateHtmlRequest'
       produces:
       - application/pdf
       responses:

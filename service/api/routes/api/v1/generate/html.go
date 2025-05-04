@@ -7,23 +7,28 @@ import (
 	"pdf-generator/utils"
 )
 
+type GenerateHtmlRequest struct {
+	Template  string            `json:"template" binding:"required" example:"https://drive.google.com/uc?export=download&id=16oauTQqVnJtJEl8unMYyUpH6BILRS97C"`
+	Variables map[string]string `json:"variables" example:"name:John Doe,amount:100.00,currency:EUR,reference:ABC123,date:2025-05-04"`
+}
+
 // @Summary		Generate something
 // @Description	Generate a PDF document from template based on the provided variables
 // @Tags			PDF Generate
 // @Accept			json
 // @Produce		application/pdf
 //
-// @Param			request	body		GenerateRequest	true	"Request body"
-// @Success		200		{file}		file			"PDF file"
-// @Failure		400		{string}	string			"Invalid input"
-// @Failure		500		{string}	string			"Internal server error"
+// @Param			request	body		GenerateHtmlRequest	true	"Request body"
+// @Success		200		{file}		file				"PDF file"
+// @Failure		400		{string}	string				"Invalid input"
+// @Failure		500		{string}	string				"Internal server error"
 // @Router			/api/v1/generate/html [post]
 func PostHtml(pdfDispatcher *pdf.PdfDispatcher) http.HandlerFunc {
 	return func(response http.ResponseWriter, request *http.Request) {
 		log.Println("🔄 Handling POST /generate request")
 
 		// TODO: Implement PDF generation logic ===
-		req, parseErr := utils.ParseRequest[GenerateRequest](request)
+		req, parseErr := utils.ParseRequest[GenerateHtmlRequest](request)
 		if parseErr != nil {
 			log.Println("❌ Error parsing request:", parseErr)
 			http.Error(response, "Invalid input", http.StatusBadRequest)

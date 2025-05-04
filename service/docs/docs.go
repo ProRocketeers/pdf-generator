@@ -35,7 +35,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/generate.GenerateRequest"
+                            "$ref": "#/definitions/generate.GenerateAdocRequest"
                         }
                     }
                 ],
@@ -81,7 +81,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/generate.GenerateRequest"
+                            "$ref": "#/definitions/generate.GenerateHtmlRequest"
                         }
                     }
                 ],
@@ -146,7 +146,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "generate.GenerateRequest": {
+        "generate.GenerateAdocRequest": {
             "type": "object",
             "required": [
                 "template"
@@ -154,7 +154,7 @@ const docTemplate = `{
             "properties": {
                 "template": {
                     "type": "string",
-                    "example": "https://example.com/template.adoc"
+                    "example": "https://drive.google.com/uc?export=download\u0026id=1qZS9uxSwsrHSMudfpDTbWQHBIM5vOnrF"
                 },
                 "variables": {
                     "type": "object",
@@ -163,7 +163,35 @@ const docTemplate = `{
                     },
                     "example": {
                         "amount": "100.00",
-                        "name": "John Doe"
+                        "currency": "EUR",
+                        "date": "2025-05-04",
+                        "name": "John Doe",
+                        "reference": "ABC123"
+                    }
+                }
+            }
+        },
+        "generate.GenerateHtmlRequest": {
+            "type": "object",
+            "required": [
+                "template"
+            ],
+            "properties": {
+                "template": {
+                    "type": "string",
+                    "example": "https://drive.google.com/uc?export=download\u0026id=16oauTQqVnJtJEl8unMYyUpH6BILRS97C"
+                },
+                "variables": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "example": {
+                        "amount": "100.00",
+                        "currency": "EUR",
+                        "date": "2025-05-04",
+                        "name": "John Doe",
+                        "reference": "ABC123"
                     }
                 }
             }
