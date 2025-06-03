@@ -4,11 +4,11 @@ services:
     container_name: pdg-generator-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: mydb
+      POSTGRES_DB: pdf-generator
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: secret
     ports:
-      - '5432:5432'
+      - '5434:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
