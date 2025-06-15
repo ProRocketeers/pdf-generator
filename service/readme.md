@@ -76,7 +76,7 @@ make gen-swagger
 make run
 ```
 
-See Swagger at <localhost:8081/api/v1/swagger/index.html>
+See Swagger at <localhost:8081/swagger>
 
 ### Test
 
