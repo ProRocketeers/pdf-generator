@@ -81,3 +81,19 @@ See Swagger at <localhost:8081/swagger>
 ### Test
 
 TBD
+
+## CI CD
+
+### Dockerfile
+
+Build the Docker image for the PDF generator service using the provided Dockerfile. This image can be used to run the service in a containerized environment.
+
+```shell
+docker build -t pdf-generator-service .
+```
+
+Run the Docker container with the following command:
+
+```shell
+docker run -d -p 8081:8081 --env-file .env pdf-generator-service
+```
