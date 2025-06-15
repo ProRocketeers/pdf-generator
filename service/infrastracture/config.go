@@ -11,7 +11,7 @@ func LoadConfig(version string) (*Config, error) {
 
 	port := utils.GetEnv("PORT", "8080")
 	host := utils.GetEnv("HOST", "localhost")
-	timeoutStr := utils.GetEnv("TIMEOUT", "1000")
+	timeoutStr := utils.GetEnv("TIMEOUT", "5000")
 	corsOriginsStr := utils.GetEnv("CORS_ORIGINS", "localhost")
 
 	// Convert timeout to integer
