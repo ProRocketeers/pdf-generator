@@ -3,10 +3,13 @@ FROM golang:1.24 AS builder
 
 WORKDIR /app
 
-COPY go.mod go.sum docs ./
+COPY go.mod go.sum ./
 RUN go mod tidy
 
 COPY . .
+
+RUN go install github.com/swaggo/swag/cmd/swag@latest
+RUN swag init -g main.go && swag fmt
 
 RUN go build -o pdf-generator ./main.go
 
@@ -14,6 +17,18 @@ RUN go build -o pdf-generator ./main.go
 FROM debian:bookworm-slim AS runtime
 
 WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ruby \
+    ruby-dev \
+    build-essential \
+    ca-certificates \
+    chromium \
+ && rm -rf /var/lib/apt/lists/*
+
+# Nejnovější verze, podpora rozšíření (např. PDF, rouge)
+# Potřebuje ruby, ruby-dev, build-essential
+RUN gem install asciidoctor asciidoctor-pdf
 
 COPY --from=builder /app/pdf-generator .
 
