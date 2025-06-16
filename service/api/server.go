@@ -62,7 +62,11 @@ func PrepareServer(config *infrastracture.Config) (*Server, error) {
 	server.Get("/metrics", routes.GetMetrics(config))
 	server.Get("/swagger*", httpSwagger.WrapHandler)
 	server.Get("/swagger", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/swagger/index.html", http.StatusMovedPermanently)
+		originalPath := r.Header.Get("X-Original-Path")
+		if originalPath == "" {
+			originalPath = r.URL.Path
+		}
+		http.Redirect(w, r, originalPath+"/index.html", http.StatusMovedPermanently)
 	})
 	server.Route("/api", func(r chi.Router) {
 		r.Route("/v1/generate", func(r chi.Router) {
