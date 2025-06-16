@@ -50,3 +50,4 @@ jobs:
             --tag ${{ github.sha }}
             --token ${{ secrets.ARGO_TRIGGER_TOKEN }}
             --valuesFile "pdf-generator-service/dev/service-values.yaml"
+            --repo "argo-repo-production"
