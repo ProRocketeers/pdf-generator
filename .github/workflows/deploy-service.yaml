@@ -33,8 +33,7 @@ jobs:
           module: git@github.com:prorocketeers/dagger-pipelines.git/docker
           args: >-
             build
-            --src .
-            --release dev
+            --app-src service/
             --reg-username $HARBOR_USERNAME 
             --reg-password env:HARBOR_PASSWORD
             --image-name labs/pdf-generator-service
