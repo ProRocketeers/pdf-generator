@@ -25,8 +25,8 @@ func PrepareServer(config *infrastracture.Config) (*Server, error) {
 	if config == nil {
 		return nil, fmt.Errorf("config cannot be nil")
 	}
-	if config.Host == "" || config.Port == "" {
-		return nil, fmt.Errorf("host and port must be specified in the config")
+	if config.Host == "" {
+		return nil, fmt.Errorf("host must be specified in the config")
 	}
 
 	server := chi.NewRouter()
@@ -53,7 +53,7 @@ func PrepareServer(config *infrastracture.Config) (*Server, error) {
 	docs.SwaggerInfo.Title = "PDF Generator API"
 	docs.SwaggerInfo.Description = "This is a PDF Generator API server."
 	docs.SwaggerInfo.BasePath = config.BasePath
-	docs.SwaggerInfo.Host = fmt.Sprintf("%s:%s", config.Host, config.Port)
+	docs.SwaggerInfo.Host = config.Host
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 	docs.SwaggerInfo.Version = config.Version
 
