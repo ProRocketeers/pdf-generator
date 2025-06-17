@@ -95,7 +95,7 @@ docker build -t pdf-generator-service .
 Run the Docker container with the following command:
 
 ```shell
-docker run -d -p 8082:8082 -e PORT=8082 -e HOST=localhost -e BASE_PATH=/test pdf-generator-service
+docker run -d -p 8082:8082 -e PORT=8082 -e HOST=localhost:8082 -e BASE_PATH=/pdf-generator-service pdf-generator-service
 ```
 
-After running the container, you can access the service at <http://localhost:8082/test/swagger>.
+After running the container, you can access the service at <http://localhost:8082/pdf-generator-service/swagger>.
