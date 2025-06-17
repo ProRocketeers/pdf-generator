@@ -89,11 +89,13 @@ TBD
 Build the Docker image for the PDF generator service using the provided Dockerfile. This image can be used to run the service in a containerized environment.
 
 ```shell
-docker build --build-arg PORT=8082 --build-arg HOST=localhost --build-arg BASE_PATH=/ -t pdf-generator-service .
+docker build -t pdf-generator-service .
 ```
 
 Run the Docker container with the following command:
 
 ```shell
-docker run -d -p 8082:8082 pdf-generator-service
+docker run -d -p 8082:8082 -e PORT=8082 -e HOST=localhost -e BASE_PATH=/test pdf-generator-service
 ```
+
+After running the container, you can access the service at <http://localhost:8082/test/swagger>.
