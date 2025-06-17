@@ -85,6 +85,6 @@ func PrepareServer(config *infrastracture.Config) (*Server, error) {
 
 func StartServer(config *infrastracture.Config, server *Server) error {
 	// Start the server
-	log.Printf("🚀 Starting server at http://%s:%s", config.Host, config.Port)
+	log.Printf("🚀 Starting server at http://%s%s", config.Host, config.BasePath)
 	return http.ListenAndServe(":"+config.Port, server)
 }
