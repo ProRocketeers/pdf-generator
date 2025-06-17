@@ -11,7 +11,7 @@ COPY . .
 RUN go install github.com/swaggo/swag/cmd/swag@latest
 RUN swag init -g main.go && swag fmt
 
-RUN go build -o pdf-generator ./main.go
+RUN make build
 
 # 🚀 Použij lehčí image pro běh aplikace
 FROM debian:bookworm-slim AS runtime
@@ -38,7 +38,7 @@ ENV PORT=${PORT}
 ENV HOST=${HOST}
 ENV BASE_PATH=${BASE_PATH}
 
-COPY --from=builder /app/pdf-generator .
+COPY --from=builder /app/bin/pdf-generator .
 
 EXPOSE ${PORT}
 
