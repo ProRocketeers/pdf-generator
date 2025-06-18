@@ -1,6 +1,3 @@
-
 export class HealthResponse {
-    constructor(
-        readonly status: string, 
-    ) {}
+  constructor(readonly status: string) {}
 }

@@ -4,9 +4,11 @@ import { ConfigService } from '@nestjs/config';
 import 'dotenv/config';
 
 const createConfigMicroOrm = (
-  configService: ConfigService,
+  configService: ConfigService | 'default',
 ): MikroOrmModuleOptions => {
-  configService = configService ?? new ConfigService(process.env);
+  if (configService === 'default') {
+    configService = new ConfigService(process.env);
+  }
 
   return {
     entities: ['./dist/**/**/*.entity.js'],
@@ -20,7 +22,7 @@ const createConfigMicroOrm = (
     migrations: {
       path: './dist/migrations',
       pathTs: './src/migrations',
-    }
+    },
   };
 };
 

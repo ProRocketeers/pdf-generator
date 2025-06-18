@@ -1,20 +1,15 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MikroOrmModule, MikroOrmModuleOptions } from '@mikro-orm/nestjs';
-import createConfigMicroOrm from 'src/configs/mikro-orm.config';
-import { PostgreSqlDriver } from '@mikro-orm/postgresql';
+import { CommonModule } from '@backend/common/common.module';
 import { HealthModule } from '@backend/health/health.module';
+import { TemplateModule } from '@backend/template/template.module';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }),
-      HealthModule,
-      /*MikroOrmModule.forRootAsync({
-        useFactory: (
-          configService: ConfigService,
-        ): MikroOrmModuleOptions => createConfigMicroOrm(configService),
-        inject: [ConfigService],
-        driver: PostgreSqlDriver, 
-    }),*/
-  ]
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    CommonModule,
+    HealthModule,
+    TemplateModule,
+  ],
 })
 export class AppModule {}
