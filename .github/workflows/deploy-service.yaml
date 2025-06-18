@@ -49,5 +49,5 @@ jobs:
             deploy
             --tag ${{ github.sha }}
             --token ${{ secrets.ARGO_TRIGGER_TOKEN }}
-            --valuesFile "pdf-generator-service/dev/service-values.yaml"
+            --valuesFile "pdf-generator-service/dev/values.yaml"
             --repo "argo-repo-production"
