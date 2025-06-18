@@ -54,8 +54,12 @@ func PrepareServer(config *infrastracture.Config) (*Server, error) {
 	docs.SwaggerInfo.Description = "This is a PDF Generator API server."
 	docs.SwaggerInfo.BasePath = config.BasePath
 	docs.SwaggerInfo.Host = config.Host
-	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 	docs.SwaggerInfo.Version = config.Version
+	if config.Dev {
+		docs.SwaggerInfo.Schemes = []string{"http", "https"}
+	} else {
+		docs.SwaggerInfo.Schemes = []string{"https"}
+	}
 
 	// Set up the router
 	server.Route(config.BasePath, func(r chi.Router) {

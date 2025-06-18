@@ -21,6 +21,11 @@ func LoadConfig(version string) (*Config, error) {
 		return nil, err
 	}
 
+	// Parse DEV environment variable
+	dev, err := strconv.ParseBool(utils.GetEnv("DEV", "false"))
+	if err != nil {
+		return nil, err
+	}
 	// Split CORS origins into a slice
 	cors := strings.Split(corsOriginsStr, ",")
 
@@ -31,5 +36,6 @@ func LoadConfig(version string) (*Config, error) {
 		BasePath:    basePath,
 		Timeout:     timeout,
 		CorsOrigins: cors,
+		Dev:         dev,
 	}, nil
 }

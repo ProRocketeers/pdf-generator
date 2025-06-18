@@ -7,4 +7,5 @@ type Config struct {
 	BasePath    string
 	Timeout     int
 	CorsOrigins []string
+	Dev         bool
 }
