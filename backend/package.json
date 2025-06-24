@@ -17,13 +17,21 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "db:fresh": "npx mikro-orm migration:fresh --config './src/configs/mikro-orm.config.ts'",
+    "db:fresh:seeded": "npx mikro-orm migration:fresh --seed --config './src/configs/mikro-orm.config.ts'",
+    "db:diff": "npx mikro-orm migration:create --config './src/configs/mikro-orm.config.ts'",
+    "db:migrate": "npx mikro-orm migration:up --config './src/configs/mikro-orm.config.ts'",
+    "db:seeder:create": "npx mikro-orm seeder:create --config './src/configs/mikro-orm.config.ts'"
   },
   "dependencies": {
+    "@mikro-orm/cli": "^6.4.16",
     "@mikro-orm/core": "^6.4.16",
+    "@mikro-orm/migrations": "^6.4.16",
     "@mikro-orm/nestjs": "^6.1.1",
     "@mikro-orm/postgresql": "^6.4.16",
     "@mikro-orm/reflection": "^6.4.16",
+    "@mikro-orm/seeder": "^6.4.16",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
@@ -31,7 +39,8 @@
     "@nestjs/swagger": "^11.2.0",
     "pg": "^8.16.0",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -41,6 +50,7 @@
     "@nestjs/testing": "^11.0.1",
     "@swc/cli": "^0.6.0",
     "@swc/core": "^1.10.7",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.7",

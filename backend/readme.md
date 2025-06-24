@@ -17,6 +17,18 @@ The backend uses **PostgreSQL** as the database, providing a robust and reliable
 
 To get started with the backend, follow these steps:
 
+### Prerequisites
+
+Database setup is required before running the backend. Ensure you have PostgreSQL installed and running on your machine or server.
+
+```bash
+npx mikro-orm migration:up --config ./src/configs/mikro-orm.config.ts
+```
+
+```bash
+npx mikro-orm seeder:run --config ./src/configs/mikro-orm.config.ts
+```
+
 ### Project setup
 
 ```bash
