@@ -26,6 +26,9 @@ importers:
       '@mikro-orm/reflection':
         specifier: ^6.4.16
         version: 6.4.16(@mikro-orm/core@6.4.16)
+      '@mikro-orm/seeder':
+        specifier: ^6.4.16
+        version: 6.4.16(@mikro-orm/core@6.4.16)
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.1.2(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -689,6 +692,12 @@ packages:
 
   '@mikro-orm/reflection@6.4.16':
     resolution: {integrity: sha512-waPaDZwOlwNUUuD00rj8HrByhs1y5hvTEFIc14LX0mgtP+OHkarM7+JTJ68RB2UaDVyZ/Bmof9uhH7TOH2awVw==}
+    engines: {node: '>= 18.12.0'}
+    peerDependencies:
+      '@mikro-orm/core': ^6.0.0
+
+  '@mikro-orm/seeder@6.4.16':
+    resolution: {integrity: sha512-5wE8gvZZYhD7N9eGsgGfK+/oe74mCgixZaE4ClSo7xUSL6fJTpzctAU6sr4NTHo3QclNTxtiI5syJD2VByWQhg==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       '@mikro-orm/core': ^6.0.0
@@ -4534,6 +4543,12 @@ snapshots:
       '@mikro-orm/core': 6.4.16
       globby: 11.1.0
       ts-morph: 26.0.0
+
+  '@mikro-orm/seeder@6.4.16(@mikro-orm/core@6.4.16)':
+    dependencies:
+      '@mikro-orm/core': 6.4.16
+      fs-extra: 11.3.0
+      globby: 11.1.0
 
   '@napi-rs/nice-android-arm-eabi@1.0.1':
     optional: true

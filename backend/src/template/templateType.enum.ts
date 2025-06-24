@@ -1,4 +1,4 @@
 export enum TemplateType {
-  Adoc = 'adoc',
+  Adoc = 'adocx',
   Html = 'html',
 }

@@ -23,6 +23,11 @@ const createConfigMicroOrm = (
       path: './dist/migrations',
       pathTs: './src/migrations',
     },
+    seeder: {
+      path: './dist/seeders',
+      pathTs: './src/seeders',
+      defaultSeeder: 'DatabaseSeeder',
+    },
   };
 };
 

@@ -12,7 +12,7 @@ export class GetTemplateListService {
   ) {}
 
   async getTemplateList(): Promise<TemplateDto[]> {
-    const entities = await this.repository.find({});
+    const entities = await this.repository.find({}, { populate: ['variables'] });
 
     return entities.map((x) => ({
       id: x.id,
@@ -21,7 +21,13 @@ export class GetTemplateListService {
       imageUrl: x.imageUrl,
       templateType: x.templateType,
       templateUrl: x.templateUrl,
-      variables: [],
+      variables: x.variables.map((y) => ({
+        id: y.id,
+        name: y.name,
+        title: y.title,
+        type: y.type,
+        default: y.default,
+      })),
     }));
   }
 }

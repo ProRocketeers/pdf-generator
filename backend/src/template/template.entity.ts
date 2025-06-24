@@ -1,6 +1,7 @@
 import { EntityBase } from '@backend/common/database/base.entity';
 import { TemplateType } from '@backend/template/templateType.enum';
-import { Entity, Property } from '@mikro-orm/core';
+import { Variable } from '@backend/template/variable.entity';
+import { Entity, Enum, OneToMany, Property } from '@mikro-orm/core';
 
 @Entity()
 export class Template extends EntityBase {
@@ -13,9 +14,16 @@ export class Template extends EntityBase {
   @Property()
   templateUrl: string;
 
-  @Property()
+  @Enum(() => TemplateType)
   templateType: TemplateType;
 
   @Property()
   imageUrl: string;
+
+  @OneToMany({
+    entity: () => Variable,
+    mappedBy: 'template',
+    orphanRemoval: true,
+  })
+  variables: Variable[];
 }
