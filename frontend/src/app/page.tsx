@@ -1,7 +1,9 @@
 import Image from 'next/image'
-import { Typography, Box, Container, Skeleton } from '@mui/material'
+import { Typography, Box, Container } from '@mui/material'
 import TemplateList from './components/TemplateList'
 import { Suspense } from 'react'
+import TemplateForm from './components/TemplateForm'
+import TemplateListSkeleton from './components/TemplateListSkeleton'
 
 export default async function Home({searchParams}: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const { templateId } = await searchParams
@@ -25,22 +27,12 @@ export default async function Home({searchParams}: { searchParams: Promise<{ [ke
         />
         <Typography variant='h1'>PDF Generator</Typography>
         <Suspense fallback={
-          <Box sx={{ display: 'flex', gap: 6, p:4 }}>
-            {Array.from({ length: 3 }).map((_, id) => (
-              <Skeleton
-                key={id}
-                variant="rectangular"
-                width={320}
-                height={120}
-                animation="wave"
-              />
-            ))}
-          </Box>
+          <TemplateListSkeleton/>
         }>
           <TemplateList />
         </Suspense>
         {
-          templateId && <Typography variant='h2'>TODO: Template component</Typography>
+          templateId && <TemplateForm templateId={templateId as string}/>
         }
       </Box>
     </Container>

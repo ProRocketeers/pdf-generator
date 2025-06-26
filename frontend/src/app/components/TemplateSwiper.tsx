@@ -29,7 +29,6 @@ export default function TemplateSwiper({ templates }: { templates: Template[] })
             <CardHeader title={template.name} />
             <CardContent>
               <Button onClick={(e) => {
-                console.log(`clicked id: ${template.id}`)
                 router.push(`/?templateId=${template.id}`)
               }}>
                 Choose
