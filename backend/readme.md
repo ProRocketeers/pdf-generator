@@ -124,8 +124,8 @@ The API documentation is generated using **Swagger** and can be accessed at `/ap
       "id": GUID,
       "title": "Invoice",
       "description": "Description of Template 1"
-      "templateUrl": "https://example.com/template.adocx",
-      "templateType": "adocx",
+      "templateUrl": "https://example.com/template.adoc",
+      "templateType": "adoc",
       "imageUrl": "https://example.com/template.png",
       "variables": [
         {
@@ -158,8 +158,8 @@ The API documentation is generated using **Swagger** and can be accessed at `/ap
     "id": GUID,
     "title": "Invoice",
     "description": "Description of Template 1"
-    "templateUrl": "https://example.com/template.adocx",
-    "templateType": "adocx",
+    "templateUrl": "https://example.com/template.adoc",
+    "templateType": "adoc",
     "imageUrl": "https://example.com/template.png",
     "variables": [
       {

@@ -10,7 +10,7 @@ export class TemplateSeeder extends Seeder {
     template1.title = 'Invoice';
     template1.description = 'Description of Template 1';
     template1.templateType = TemplateType.Adoc;
-    template1.templateUrl = 'https://example.com/template.adocx';
+    template1.templateUrl = 'https://example.com/template.adoc';
     template1.imageUrl = 'https://example.com/template.png';
 
     context.template1 = template1;

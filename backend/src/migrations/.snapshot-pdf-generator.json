@@ -74,7 +74,7 @@
           "primary": false,
           "nullable": false,
           "enumItems": [
-            "adocx",
+            "adoc",
             "html"
           ],
           "mappedType": "enum"
