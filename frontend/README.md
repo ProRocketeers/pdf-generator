@@ -10,7 +10,6 @@ The frontend is designed to be responsive and user-friendly, with a focus on pro
 |---------------|-----------------------------------------------------------------------------|
 | React         | JavaScript library for building user interfaces.                          |
 | Next.js      | React framework for server-rendered applications.                        |
-| Vite          | Fast build tool and development server for modern web applications.      |
 | App Router    | Routing solution for Next.js applications.                              |
 | Server Components | Feature of Next.js that allows for server-side rendering of components. |
 | Suspense      | React feature that allows for asynchronous rendering of components.     |
@@ -34,6 +33,25 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## CI CD
+
+### Dockerfile
+
+This project includes a Dockerfile for building and running the application in a containerized environment. The Dockerfile is set up to use multi-stage builds for efficient image creation.
+
+```shell
+docker build -t pdf-generator-frontend .
+```
+
+Run the Docker container with the following command:
+
+```shell
+docker run -p 3000:3000 \
+  -e PORT=3000 \
+  -e API_URL=http://host.docker.internal:3001 \
+  pdf-generator-frontend
+```
 
 ## Learn More
 
