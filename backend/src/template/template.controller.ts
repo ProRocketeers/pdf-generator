@@ -2,7 +2,7 @@ import { GetTemplateListService } from '@backend/template/getTemplateList.servic
 import { TemplateDto } from '@backend/template/template.dto';
 import { Controller, Get } from '@nestjs/common';
 
-@Controller('template')
+@Controller('api/v1/template')
 export class TemplateController {
   constructor(private readonly getTemplateListService: GetTemplateListService) {}
 
