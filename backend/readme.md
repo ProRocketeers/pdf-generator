@@ -61,6 +61,31 @@ $ pnpm run test:e2e
 $ pnpm run test:cov
 ```
 
+## CI CD
+
+### Dockerfile
+
+The Dockerfile is used to build a Docker image for the backend service. It sets up the environment, installs dependencies, and compiles the application.
+
+```shell
+docker build -t pdf-generator-backend .
+```
+
+Run the Docker container with the following command:
+
+```shell
+docker run -p 3001:3001 \
+  -e PORT=3001 \
+  -e DB_PORT=5434 \
+  -e DB_USER=postgres \
+  -e DB_HOST=host.docker.internal \
+  -e DB_NAME=pdf-generator \
+  -e DB_PASSWORD=secret \
+  pdf-generator-backend
+```
+
+Replace the environment variable values as needed for your setup.
+
 ## API Documentation
 
 <!-- health, getTemplates, getTemplate, createPdf -->
