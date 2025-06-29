@@ -9,26 +9,28 @@ import { useRouter } from 'next/navigation'
 
 interface Template {
   id: number
-  name: string
+  title: string
 }
 
 export default function TemplateSwiper({ templates }: { templates: Template[] }) {
   const router = useRouter()
+  const slidesPerView = Math.min(3, templates.length)
 
   return (
     <Swiper
       modules={[FreeMode]}
       spaceBetween={50}
-      slidesPerView={3}
-      navigation
+      slidesPerView={slidesPerView}
       style={{ padding: "2rem" }}
+      navigation
+
     >
       {templates.map((template) => (
         <SwiperSlide key={template.id}>
           <Card raised>
-            <CardHeader title={template.name} />
+            <CardHeader title={template.title} />
             <CardContent>
-              <Button onClick={(e) => {
+              <Button onClick={() => {
                 router.push(`/?templateId=${template.id}`)
               }}>
                 Choose

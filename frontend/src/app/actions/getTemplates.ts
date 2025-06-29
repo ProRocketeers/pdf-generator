@@ -1,12 +1,16 @@
-export async function getTemplates() {
-  // TODO: Replace this with a proper API call to fetch templates
-  await new Promise(resolve => setTimeout(resolve, 3000))
+const API_URL = process.env.API_URL as string
 
-  return [
-    { id: 123, name: 'Invoice Template' },
-    { id: 234, name: 'Resume Template' },
-    { id: 345, name: 'Report Template' },
-    { id: 446, name: 'Newsletter Template' },
-    { id: 567, name: 'Portfolio Template' },
-  ]
+export async function getTemplates() {
+  const response = await fetch(`${API_URL}/api/v1/template`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch templates: ${response.statusText}`)
+  }
+
+  return response.json()
 }
