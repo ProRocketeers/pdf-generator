@@ -17,7 +17,6 @@ FROM node:20-alpine AS runner
 
 ARG NODE_ENV=production
 ARG PORT=3001
-# DB ARGS
 ARG DB_HOST
 ARG DB_PORT
 ARG DB_USER
@@ -42,6 +41,6 @@ ENV DB_USER=${DB_USER}
 ENV DB_PASSWORD=${DB_PASSWORD}
 ENV DB_NAME=${DB_NAME}
 
-EXPOSE 3001
+EXPOSE ${PORT}
 
 CMD ["node", "dist/src/main.js"]
