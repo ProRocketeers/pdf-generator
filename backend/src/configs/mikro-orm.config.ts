@@ -10,6 +10,9 @@ const createConfigMicroOrm = (
     configService = new ConfigService(process.env);
   }
 
+  const host = configService.get<string>('DB_HOST', '');
+  const useSSL = host !== 'localhost';
+
   return {
     entities: ['./dist/**/**/*.entity.js'],
     entitiesTs: ['./src/**/**/*.entity.ts'],
@@ -19,6 +22,15 @@ const createConfigMicroOrm = (
     user: configService.get<string>('DB_USER', ''),
     password: configService.get<string>('DB_PASSWORD', ''),
     dbName: configService.get<string>('DB_NAME', ''),
+    driverOptions: {
+        connection: useSSL
+        ? {
+            ssl: {
+                rejectUnauthorized: false,
+            },
+        }
+        : {},
+    },
     migrations: {
       path: './dist/migrations',
       pathTs: './src/migrations',
