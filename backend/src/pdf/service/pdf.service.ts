@@ -20,7 +20,7 @@ export class PdfService {
     private readonly configService: ConfigService
   ) { }
 
-  get baseUrl(): string {
+  private get baseUrl(): string {
     const apiUrl = this.configService.get<string>('PDF_SERVICE_API_URL')
 
     if (!apiUrl) {

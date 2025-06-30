@@ -82,40 +82,6 @@ export class VariableSeeder extends Seeder {
     template02ReferenceVar.template = context.template02
     em.persist(template02ReferenceVar)
 
-    // Variables for template1
-    const template1FullNameVar = new Variable()
-    template1FullNameVar.name = 'fullName'
-    template1FullNameVar.type = VariableType.String
-    template1FullNameVar.title = 'Full Name'
-    template1FullNameVar.default = 'John Doe'
-    template1FullNameVar.template = context.template1
-    em.persist(template1FullNameVar)
-
-    const template1OccupationVar = new Variable()
-    template1OccupationVar.name = 'occupation'
-    template1OccupationVar.type = VariableType.String
-    template1OccupationVar.title = 'Occupation'
-    template1OccupationVar.default = 'developer'
-    template1OccupationVar.template = context.template1
-    em.persist(template1OccupationVar)
-
-    // Variables for template2
-    const template2FullNameVar = new Variable()
-    template2FullNameVar.name = 'fullName'
-    template2FullNameVar.type = VariableType.String
-    template2FullNameVar.title = 'Full Name'
-    template2FullNameVar.default = 'John Doe'
-    template2FullNameVar.template = context.template2
-    em.persist(template2FullNameVar)
-
-    const template2OccupationVar = new Variable()
-    template2OccupationVar.name = 'occupation'
-    template2OccupationVar.type = VariableType.String
-    template2OccupationVar.title = 'Occupation'
-    template2OccupationVar.default = 'developer'
-    template2OccupationVar.template = context.template2
-    em.persist(template2OccupationVar)
-
     await em.flush()
   }
 }
