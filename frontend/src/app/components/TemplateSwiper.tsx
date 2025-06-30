@@ -23,7 +23,6 @@ export default function TemplateSwiper({ templates }: { templates: Template[] })
       slidesPerView={slidesPerView}
       style={{ padding: "2rem" }}
       navigation
-
     >
       {templates.map((template) => (
         <SwiperSlide key={template.id}>
