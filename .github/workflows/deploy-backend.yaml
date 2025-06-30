@@ -1,0 +1,53 @@
+name: Deploy pdf-generator-backend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+
+env:
+  SHUTUP: 1
+  HARBOR_USERNAME: ${{ secrets.HARBOR_USERNAME }}
+  HARBOR_PASSWORD: ${{ secrets.HARBOR_PASSWORD }}
+
+jobs:
+  build-and-push:
+    runs-on: [self-hosted]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.6
+
+      - name: Prepare ssh key
+        run: |
+          eval $(ssh-agent -s)
+          ssh-add -D
+          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
+
+      - name: Build and push image
+        uses: dagger/dagger-for-github@v7.0.6
+        with:
+          verb: call
+          module: git@github.com:prorocketeers/dagger-pipelines.git/docker
+          args: >-
+            build
+            --git-src .
+            --app-src backend/
+            --reg-username $HARBOR_USERNAME 
+            --reg-password env:HARBOR_PASSWORD
+            --image-name labs/pdf-generator-backend
+            --registry harbor.intra.prorocketeers.com
+
+      - name: Deploy
+        uses: dagger/dagger-for-github@v7.0.6
+        with:
+          verb: call
+          module: git@github.com:prorocketeers/dagger-pipelines.git/deploy
+          args: >-
+            deploy
+            --tag ${{ github.sha }}
+            --token ${{ secrets.ARGO_TRIGGER_TOKEN }}
+            --valuesFile "pdf-generator-service/dev/backend-values.yaml"
+            --repo "argo-repo-production"
