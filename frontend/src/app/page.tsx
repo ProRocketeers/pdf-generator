@@ -9,7 +9,7 @@ export default async function Home({searchParams}: { searchParams: Promise<{ [ke
   const { templateId } = await searchParams
 
   return (
-    <Container maxWidth="lg">
+    <Box maxWidth="lg">
       <Box
         display="flex"
         flexDirection="column"
@@ -35,6 +35,6 @@ export default async function Home({searchParams}: { searchParams: Promise<{ [ke
           templateId && <TemplateForm templateId={templateId as string}/>
         }
       </Box>
-    </Container>
+    </Box>
   );
 }
