@@ -8,5 +8,6 @@ import { Module } from '@nestjs/common';
   imports: [MikroOrmModule.forFeature([Template])],
   controllers: [TemplateController],
   providers: [GetTemplateListService],
+  exports: [GetTemplateListService],
 })
 export class TemplateModule {}
