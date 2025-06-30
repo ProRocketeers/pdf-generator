@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Typography, Box, Container } from '@mui/material'
+import { Typography, Box } from '@mui/material'
 import TemplateList from './components/TemplateList'
 import { Suspense } from 'react'
 import TemplateForm from './components/TemplateForm'
