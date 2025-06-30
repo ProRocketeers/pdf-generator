@@ -28,6 +28,7 @@ COPY --from=builder /app/public ./public
 ENV NODE_ENV=${NODE_ENV}
 ENV PORT=${PORT}
 ENV API_URL=${API_URL}
+ENV HOSTNAME=0.0.0.0
 
 EXPOSE ${PORT}
 
