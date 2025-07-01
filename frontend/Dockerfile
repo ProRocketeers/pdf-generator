@@ -10,6 +10,9 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
+ARG BASE_PATH
+ENV NEXT_PUBLIC_BASE_PATH=${BASE_PATH}
+
 RUN pnpm run build
 
 # 🚀 Použij lehčí image pro běh aplikace
