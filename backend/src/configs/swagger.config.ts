@@ -9,7 +9,7 @@ export const configureSwagger = (app: NestExpressApplication) => {
   const basePath = configService.get<string>('BASE_PATH') || '';
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('PDF Generator')
+    .setTitle('PDF Generator API')
     .setVersion(version)
     .addServer(basePath, 'PDF Generator')
     .build();
