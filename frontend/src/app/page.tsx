@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Typography, Box, Container } from '@mui/material'
+import { Typography, Box } from '@mui/material'
 import TemplateList from './components/TemplateList'
 import { Suspense } from 'react'
 import TemplateForm from './components/TemplateForm'
@@ -9,7 +9,7 @@ export default async function Home({searchParams}: { searchParams: Promise<{ [ke
   const { templateId } = await searchParams
 
   return (
-    <Container maxWidth="lg">
+    <Box maxWidth="lg">
       <Box
         display="flex"
         flexDirection="column"
@@ -35,6 +35,6 @@ export default async function Home({searchParams}: { searchParams: Promise<{ [ke
           templateId && <TemplateForm templateId={templateId as string}/>
         }
       </Box>
-    </Container>
+    </Box>
   );
 }

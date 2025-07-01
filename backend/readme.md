@@ -81,6 +81,7 @@ docker run -p 3001:3001 \
   -e DB_HOST=host.docker.internal \
   -e DB_NAME=pdf-generator \
   -e DB_PASSWORD=secret \
+  -e PDF_SERVICE_API_URL=https://labs.prork.cz/pdf-generator-service \
   pdf-generator-backend
 ```
 
@@ -124,8 +125,8 @@ The API documentation is generated using **Swagger** and can be accessed at `/ap
       "id": GUID,
       "title": "Invoice",
       "description": "Description of Template 1"
-      "templateUrl": "https://example.com/template.adocx",
-      "templateType": "adocx",
+      "templateUrl": "https://example.com/template.adoc",
+      "templateType": "adoc",
       "imageUrl": "https://example.com/template.png",
       "variables": [
         {
@@ -158,8 +159,8 @@ The API documentation is generated using **Swagger** and can be accessed at `/ap
     "id": GUID,
     "title": "Invoice",
     "description": "Description of Template 1"
-    "templateUrl": "https://example.com/template.adocx",
-    "templateType": "adocx",
+    "templateUrl": "https://example.com/template.adoc",
+    "templateType": "adoc",
     "imageUrl": "https://example.com/template.png",
     "variables": [
       {

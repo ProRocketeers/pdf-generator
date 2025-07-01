@@ -6,7 +6,8 @@
     "dev": "dotenv next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:fix": "next lint --fix"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -17,6 +18,7 @@
     "next": "15.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.59.0",
     "swiper": "^11.2.6"
   },
   "devDependencies": {
