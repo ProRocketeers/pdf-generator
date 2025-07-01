@@ -39,7 +39,7 @@ jobs:
             --reg-password env:HARBOR_PASSWORD
             --image-name labs/pdf-generator-frontend
             --registry harbor.intra.prorocketeers.com
-            --args NEXT_PUBLIC_BASE_PATH=/pdf-generator
+            --args BASE_PATH=/pdf-generator
 
       - name: Deploy
         uses: dagger/dagger-for-github@v7.0.6
