@@ -7,6 +7,8 @@ import TemplateListSkeleton from './components/TemplateListSkeleton'
 import { version } from '../../package.json'
 
 export default async function Home({searchParams}: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
   const { templateId } = await searchParams
 
   return (
@@ -20,7 +22,7 @@ export default async function Home({searchParams}: { searchParams: Promise<{ [ke
       >
         {/*TODO: Remove or replace this with a proper logo*/}
         <Image
-          src="/next.svg"
+          src={`${basePath}/next.svg`}
           alt="Next.js logo"
           width={180}
           height={38}
