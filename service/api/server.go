@@ -50,8 +50,8 @@ func PrepareServer(config *infrastracture.Config) (*Server, error) {
 	server.Use(ourMiddleware.RateLimiter(rateLimiter))
 
 	// Set up swagger
-	docs.SwaggerInfo.Title = "PDF Generator API"
-	docs.SwaggerInfo.Description = "This is a PDF Generator API server."
+	docs.SwaggerInfo.Title = "PDF Generator Service"
+	docs.SwaggerInfo.Description = "This service generates PDFs from various templates/formats."
 	docs.SwaggerInfo.BasePath = config.BasePath
 	docs.SwaggerInfo.Host = config.Host
 	docs.SwaggerInfo.Version = config.Version
