@@ -1,5 +1,5 @@
 import { GetTemplateListService } from '@backend/template/getTemplateList.service';
-import { GetTemplateService } from '@backend/template/getTemplateservice';
+import { GetTemplateService } from '@backend/template/getTemplateService';
 import { TemplateDto } from '@backend/template/template.dto';
 import { Controller, Get, Param } from '@nestjs/common';
 
@@ -17,6 +17,6 @@ export class TemplateController {
 
   @Get(':id')
   async get(@Param('id') id: string): Promise<TemplateDto> {
-    return this.getTemplateService.getTemplateList(id);
+    return this.getTemplateService.getTemplate(id);
   }
 }

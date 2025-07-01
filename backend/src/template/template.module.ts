@@ -1,5 +1,5 @@
 import { GetTemplateListService } from '@backend/template/getTemplateList.service';
-import { GetTemplateService } from '@backend/template/getTemplateservice';
+import { GetTemplateService } from '@backend/template/getTemplateService';
 import { TemplateController } from '@backend/template/template.controller';
 import { Template } from '@backend/template/template.entity';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
@@ -9,6 +9,6 @@ import { Module } from '@nestjs/common';
   imports: [MikroOrmModule.forFeature([Template])],
   controllers: [TemplateController],
   providers: [GetTemplateListService, GetTemplateService],
-  exports: [GetTemplateListService],
+  exports: [GetTemplateService],
 })
 export class TemplateModule {}

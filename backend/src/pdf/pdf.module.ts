@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common'
-import { HttpModule } from '@nestjs/axios'
-import { MikroOrmModule } from '@mikro-orm/nestjs'
-import { Template } from '@backend/template/template.entity'
-import { PdfController } from './pdf.controller'
-import { PdfService } from './service/pdf.service'
-import { TemplateModule } from '@backend/template/template.module'
+import { PdfController } from '@backend/pdf/pdf.controller';
+import { PdfService } from '@backend/pdf/service/pdf.service';
+import { Template } from '@backend/template/template.entity';
+import { TemplateModule } from '@backend/template/template.module';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { HttpModule } from '@nestjs/axios';
+import { Module } from '@nestjs/common';
 
 @Module({
   imports: [MikroOrmModule.forFeature([Template]), HttpModule, TemplateModule],
