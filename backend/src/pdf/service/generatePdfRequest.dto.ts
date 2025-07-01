@@ -1,4 +1,4 @@
 export class GeneratePdfRequestDto {
-  template: string
-  variables: Record<string, any>
+  template: string;
+  variables: Record<string, any>;
 }

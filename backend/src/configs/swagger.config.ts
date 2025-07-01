@@ -1,7 +1,8 @@
+import { ConfigService } from '@nestjs/config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
 import { version } from '../../package.json';
-import { ConfigService } from '@nestjs/config';
 
 export const configureSwagger = (app: NestExpressApplication) => {
   const configService = app.get(ConfigService);

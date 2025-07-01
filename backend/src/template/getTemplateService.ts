@@ -11,7 +11,7 @@ export class GetTemplateService {
     private readonly repository: EntityRepository<Template>,
   ) {}
 
-  async getTemplateList(id: string): Promise<TemplateDto> {
+  async getTemplate(id: string): Promise<TemplateDto> {
     const entity = await this.repository.findOne(id, { populate: ['variables'] });
 
     if (!entity) {

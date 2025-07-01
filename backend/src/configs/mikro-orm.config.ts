@@ -23,12 +23,12 @@ const createConfigMicroOrm = (
     password: configService.get<string>('DB_PASSWORD', ''),
     dbName: configService.get<string>('DB_NAME', ''),
     driverOptions: {
-        connection: useSSL
+      connection: useSSL
         ? {
             ssl: {
-                rejectUnauthorized: false,
+              rejectUnauthorized: false,
             },
-        }
+          }
         : {},
     },
     migrations: {

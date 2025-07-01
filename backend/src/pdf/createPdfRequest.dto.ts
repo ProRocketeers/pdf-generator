@@ -1,5 +1,5 @@
 export class CreatePdfRequestDto {
-  templateId: string
-  variables: Record<string, any>
-  fileName?: string
+  templateId: string;
+  variables: Record<string, any>;
+  fileName?: string;
 }
