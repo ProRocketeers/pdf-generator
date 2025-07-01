@@ -4,6 +4,7 @@ import TemplateList from './components/TemplateList'
 import { Suspense } from 'react'
 import TemplateForm from './components/TemplateForm'
 import TemplateListSkeleton from './components/TemplateListSkeleton'
+import { version } from '../../package.json'
 
 export default async function Home({searchParams}: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const { templateId } = await searchParams
@@ -35,6 +36,7 @@ export default async function Home({searchParams}: { searchParams: Promise<{ [ke
           templateId && <TemplateForm templateId={templateId as string}/>
         }
       </Box>
+      {version}
     </Box>
   );
 }

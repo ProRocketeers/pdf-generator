@@ -1,6 +1,6 @@
 {
   "name": "pdf-generator-frontend",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "scripts": {
     "dev": "dotenv next dev --turbopack",
