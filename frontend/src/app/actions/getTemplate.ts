@@ -17,7 +17,7 @@ export async function getTemplate(templateId: string) {
   await new Promise(resolve => setTimeout(resolve, 3000))
 
   return {
-    id: "string",
+    id: templateId,
     title: "Invoice",
     description: "Description of Template 1",
     templateUrl: "https://drive.google.com/uc?export=download&id=1qZS9uxSwsrHSMudfpDTbWQHBIM5vOnrF",
