@@ -15,11 +15,11 @@ export default function Template({ template }: any) {
     handleSubmit,
   } = useForm<any>()
 
-  const onSubmit: SubmitHandler<any> = (data: any) => {
+  const onSubmit: SubmitHandler<any> = (variables: any) => {
     // TODO: Send Data To BE
     const body = {
       templateId: template.id,
-      data,
+      variables,
     }
 
     console.log('BODY', body)
