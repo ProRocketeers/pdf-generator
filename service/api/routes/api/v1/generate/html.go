@@ -27,7 +27,6 @@ func PostHtml(pdfDispatcher *pdf.PdfDispatcher) http.HandlerFunc {
 	return func(response http.ResponseWriter, request *http.Request) {
 		log.Println("🔄 Handling POST /generate request")
 
-		// TODO: Implement PDF generation logic ===
 		req, parseErr := utils.ParseRequest[GenerateHtmlRequest](request)
 		if parseErr != nil {
 			log.Println("❌ Error parsing request:", parseErr)
@@ -35,7 +34,6 @@ func PostHtml(pdfDispatcher *pdf.PdfDispatcher) http.HandlerFunc {
 			return
 		}
 
-		// TODO: Get template type from somewhere
 		pdfData, generateErr := pdfDispatcher.GenerateFromUrl("html", req.Template, req.Variables)
 		if generateErr != nil {
 			log.Println("❌ Error generating PDF:", generateErr)
