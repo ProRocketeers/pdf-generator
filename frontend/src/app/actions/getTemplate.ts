@@ -12,8 +12,5 @@ export async function getTemplate(templateId: string) {
     throw new Error(`Failed to fetch template: ${response.statusText}`)
   }
 
-  const data = await response.json()
-
-  console.log('Fetched template:', data)
-  return data
+  return response.json()
 }
