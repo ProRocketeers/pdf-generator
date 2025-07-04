@@ -1,7 +1,8 @@
 'use client'
 
 import { Box, Typography, Button, Paper, Grid, TextField } from '@mui/material'
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
+import { postVariables } from '@/app/actions/postVariables'
 
 export default function Template({ template }: any) {
   const fieldTypeMapper = new Map<string, string>([
@@ -12,18 +13,7 @@ export default function Template({ template }: any) {
 
   const {
     register,
-    handleSubmit,
   } = useForm<any>()
-
-  const onSubmit: SubmitHandler<any> = (variables: any) => {
-    // TODO: Send Data To BE
-    const body = {
-      templateId: template.id,
-      variables,
-    }
-
-    console.log('BODY', body)
-  }
 
   return (
     <Box my={4}>
@@ -36,7 +26,17 @@ export default function Template({ template }: any) {
             {template.description}
           </Typography>
         </Box>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form action={async (formData: FormData) => {
+          await postVariables(template.id, formData).then((pdf: Blob) => {
+            const url = URL.createObjectURL(pdf)
+            const link = document.createElement('a')
+            link.href = url
+            link.download = `${template.title}.pdf`
+            document.body.appendChild(link)
+            link.click()
+            document.body.removeChild(link)
+          })
+        }}>
           <Grid container spacing={2} mt={2}>
             {template.variables.map((variable: any, index: number) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
