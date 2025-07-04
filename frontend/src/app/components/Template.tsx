@@ -38,9 +38,8 @@ export default function Template({ template }: any) {
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
+      setLoading(false)
     })
-
-    setLoading(false)
   }
 
   return (
