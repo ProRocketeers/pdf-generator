@@ -1,7 +1,17 @@
 'use client'
 
 import { Box, Typography, Button, Paper, Grid, TextField } from '@mui/material'
-import { useForm, SubmitHandler } from "react-hook-form"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { postVariables } from '@/app/actions/postVariables'
+import { useState } from 'react'
+
+export interface Variables {
+  amount: string
+  currency: string
+  date: string
+  name: string
+  reference: string
+}
 
 export default function Template({ template }: any) {
   const fieldTypeMapper = new Map<string, string>([
@@ -15,14 +25,21 @@ export default function Template({ template }: any) {
     handleSubmit,
   } = useForm<any>()
 
-  const onSubmit: SubmitHandler<any> = (variables: any) => {
-    // TODO: Send Data To BE
-    const body = {
-      templateId: template.id,
-      variables,
-    }
+  const [isLoading, setLoading] = useState(false)
 
-    console.log('BODY', body)
+  const onSubmit: SubmitHandler<any> = async (variables: Variables) => {
+    setLoading(true)
+
+    await postVariables(template.id, variables).then((pdf: Blob) => {
+      const url = URL.createObjectURL(pdf)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `${template.title}.pdf`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      setLoading(false)
+    })
   }
 
   return (
@@ -53,7 +70,7 @@ export default function Template({ template }: any) {
             ))}
           </Grid>
           <Box mt={4} display="flex" justifyContent="flex-end">
-            <Button type="submit" variant="contained" color="primary">
+            <Button loading={isLoading} type="submit" variant="contained" color="primary">
               Submit
             </Button>
           </Box>
