@@ -10,13 +10,17 @@ export async function postVariables(templateId: string, variables: Variables) {
     variables
   }
 
-  return fetch(`${API_URL}/api/v1/pdf`, {
+  const response = await fetch(`${API_URL}/api/v1/pdf`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
-  }).then(res => res.blob()).catch(err => {
-    throw new Error(`Failed to create PDF: ${err.statusText}`)
   })
+
+  if (!response.ok) {
+    throw new Error(`Failed to create PDF: ${response.statusText}`)
+  }
+
+  return response.blob()
 }
