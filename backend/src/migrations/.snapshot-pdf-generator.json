@@ -75,7 +75,8 @@
           "nullable": false,
           "enumItems": [
             "adoc",
-            "html"
+            "html",
+            "pdf"
           ],
           "mappedType": "enum"
         },
