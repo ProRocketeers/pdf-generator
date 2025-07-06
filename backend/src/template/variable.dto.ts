@@ -29,7 +29,8 @@ export class VariableDto {
 
   @ApiProperty({
     description: 'Default value',
-    example: '104.00'
+    example: '104.00',
+    nullable: true,
   })
   default: string | null
 }

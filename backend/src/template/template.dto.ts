@@ -43,6 +43,7 @@ export class TemplateDto {
   @ApiProperty({
     description: 'Template variables',
     type: [VariableDto],
+    isArray: true,
   })
   variables: VariableDto[]
 }

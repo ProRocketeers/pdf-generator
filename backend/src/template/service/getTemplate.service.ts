@@ -1,7 +1,7 @@
 import { TemplateDto } from '@backend/template/template.dto'
 import { mapTemplateToDto, Template } from '@backend/template/service/template.entity'
 import { InjectRepository } from '@mikro-orm/nestjs'
-import { EntityRepository, t } from '@mikro-orm/postgresql'
+import { EntityRepository } from '@mikro-orm/postgresql'
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 
 @Injectable()
