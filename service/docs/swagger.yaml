@@ -35,6 +35,24 @@ definitions:
     required:
     - template
     type: object
+  generate.GeneratePDFRequest:
+    properties:
+      template:
+        example: https://drive.google.com/uc?export=download&id=1SxtqHergEau6QGIvgbzC2LI4Cz9pFJM2
+        type: string
+      variables:
+        additionalProperties:
+          type: string
+        example:
+          Text1: ABC123
+          Text2: John Doe
+          Text3: "100.00"
+          Text4: EUR
+          Text5: "2025-05-04"
+        type: object
+    required:
+    - template
+    type: object
   routes.BySizeStat:
     properties:
       Frees:
@@ -173,6 +191,36 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/generate.GenerateHtmlRequest'
+      produces:
+      - application/pdf
+      responses:
+        "200":
+          description: PDF file
+          schema:
+            type: file
+        "400":
+          description: Invalid input
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Generate something
+      tags:
+      - PDF Generate
+  /api/v1/generate/pdf:
+    post:
+      consumes:
+      - application/json
+      description: Generate a PDF document from template based on the provided variables
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/generate.GeneratePDFRequest'
       produces:
       - application/pdf
       responses:

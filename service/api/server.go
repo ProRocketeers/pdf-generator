@@ -80,6 +80,7 @@ func PrepareServer(config *infrastracture.Config) (*Server, error) {
 				// r.Post("/adoc", api_v1.PostGenerate(pdfDispatcher))
 				r.Post("/adoc", api_v1_generate.PostAdoc(pdfDispatcher))
 				r.Post("/html", api_v1_generate.PostHtml(pdfDispatcher))
+				r.Post("/pdf", api_v1_generate.PostPdf(pdfDispatcher))
 			})
 		})
 	})

@@ -2,6 +2,7 @@ package pdf
 
 import (
 	"log"
+	"pdf-generator/domain/pdf/generator"
 	"pdf-generator/domain/pdf/helper"
 	"strings"
 )
@@ -10,6 +11,7 @@ type PdfDispatcher struct {
 	fetcher helper.TemplateFetcher
 	adoc    PDFGenerator
 	html    PDFGenerator
+	pdf     PDFGenerator
 	// ...
 }
 
@@ -18,6 +20,7 @@ func NewPdfDispatcher() *PdfDispatcher {
 		fetcher: helper.TemplateFetcher{},
 		adoc:    NewAdocGenerator(),
 		html:    NewHtmlGenerator(),
+		pdf:     generator.NewPdfGenerator(),
 		// ...
 	}
 }
@@ -28,6 +31,8 @@ func (d *PdfDispatcher) selectGenerator(templateType string) PDFGenerator {
 		return d.adoc
 	case "html":
 		return d.html
+	case "pdf":
+		return d.pdf
 	// ...
 	default:
 		return d.adoc // fallback or error

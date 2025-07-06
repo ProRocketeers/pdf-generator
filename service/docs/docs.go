@@ -107,6 +107,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/generate/pdf": {
+            "post": {
+                "description": "Generate a PDF document from template based on the provided variables",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/pdf"
+                ],
+                "tags": [
+                    "PDF Generate"
+                ],
+                "summary": "Generate something",
+                "parameters": [
+                    {
+                        "description": "Request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/generate.GeneratePDFRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PDF file",
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/health": {
             "get": {
                 "description": "Check if the service is running",
@@ -192,6 +238,31 @@ const docTemplate = `{
                         "date": "2025-05-04",
                         "name": "John Doe",
                         "reference": "ABC123"
+                    }
+                }
+            }
+        },
+        "generate.GeneratePDFRequest": {
+            "type": "object",
+            "required": [
+                "template"
+            ],
+            "properties": {
+                "template": {
+                    "type": "string",
+                    "example": "https://drive.google.com/uc?export=download\u0026id=1SxtqHergEau6QGIvgbzC2LI4Cz9pFJM2"
+                },
+                "variables": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "example": {
+                        "Text1": "ABC123",
+                        "Text2": "John Doe",
+                        "Text3": "100.00",
+                        "Text4": "EUR",
+                        "Text5": "2025-05-04"
                     }
                 }
             }
