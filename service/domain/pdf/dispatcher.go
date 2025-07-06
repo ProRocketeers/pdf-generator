@@ -18,8 +18,8 @@ type PdfDispatcher struct {
 func NewPdfDispatcher() *PdfDispatcher {
 	return &PdfDispatcher{
 		fetcher: helper.TemplateFetcher{},
-		adoc:    NewAdocGenerator(),
-		html:    NewHtmlGenerator(),
+		adoc:    generator.NewAdocGenerator(),
+		html:    generator.NewHtmlGenerator(),
 		pdf:     generator.NewPdfGenerator(),
 		// ...
 	}
