@@ -30,20 +30,20 @@ func (d *PdfDispatcher) selectGenerator(templateType string) PDFGenerator {
 		return d.html
 	// ...
 	default:
-		return d.adoc // fallback nebo error
+		return d.adoc // fallback or error
 	}
 }
 
-func (d *PdfDispatcher) GenerateFromUrl(typ, url string, vars map[string]string) ([]byte, error) {
+func (d *PdfDispatcher) GenerateFromUrl(typ string, url string, vars map[string]string) ([]byte, error) {
 	data, err := d.fetcher.FetchTemplate(url)
 	if err != nil {
 		log.Println("❌ Error fetching template:", err)
 		return nil, err
 	}
 
-	return d.GenerateFromTemplate(typ, string(data), vars)
+	return d.GenerateFromTemplate(typ, data, vars)
 }
 
-func (d *PdfDispatcher) GenerateFromTemplate(typ, template string, vars map[string]string) ([]byte, error) {
+func (d *PdfDispatcher) GenerateFromTemplate(typ string, template []byte, vars map[string]string) ([]byte, error) {
 	return d.selectGenerator(typ).GenerateFromTemplate(template, vars)
 }

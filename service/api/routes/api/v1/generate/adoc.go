@@ -18,7 +18,7 @@ type GenerateAdocRequest struct {
 // @Accept			json
 // @Produce		application/pdf
 //
-// @Param			request	body		GenerateAdocRequest	true	"Request body"	example("template:https://example.com/template.adoc, variables: {}")
+// @Param			request	body		GenerateAdocRequest	true	"Request body"
 // @Success		200		{file}		file				"PDF file"
 // @Failure		400		{string}	string				"Invalid input"
 // @Failure		500		{string}	string				"Internal server error"

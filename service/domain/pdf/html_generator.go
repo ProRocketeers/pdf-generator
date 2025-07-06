@@ -18,31 +18,32 @@ func NewHtmlGenerator() *HtmlGenerator {
 	return &HtmlGenerator{}
 }
 
-func (g *HtmlGenerator) GenerateFromTemplate(tpl string, vars map[string]string) ([]byte, error) {
-	// 🧩 Render HTML šablony
-	tmpl, err := template.New("pdf-template").Parse(tpl)
+func (g *HtmlGenerator) GenerateFromTemplate(tpl []byte, variables map[string]string) ([]byte, error) {
+	// 🧩 Render HTML template
+	tmpl, err := template.New("pdf-template").Parse(string(tpl))
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse template: %w", err)
 	}
 
 	var rendered bytes.Buffer
-	err = tmpl.Execute(&rendered, vars)
+	err = tmpl.Execute(&rendered, variables)
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}
 	renderedHTML := rendered.String()
 
-	// ✅ Předání HTML jako data URL
+	// ✅ Pass HTML as data URL
 	htmlDataURL := "data:text/html," + url.PathEscape(renderedHTML)
 
-	// 🌐 Nastavení kontextu
+	// 🌐 Set up context
 	ctx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()
 
 	ctx, cancel = context.WithTimeout(ctx, 15*time.Second)
 	defer cancel()
 
-	var pdfBuf []byte
+	// 🖨️ Create PDF from HTML using chromedp
+	var pdfData []byte
 
 	err = chromedp.Run(ctx,
 		chromedp.Navigate(htmlDataURL),
@@ -50,7 +51,7 @@ func (g *HtmlGenerator) GenerateFromTemplate(tpl string, vars map[string]string)
 		chromedp.Sleep(500*time.Millisecond),
 		chromedp.ActionFunc(func(ctx context.Context) error {
 			var err error
-			pdfBuf, _, err = page.PrintToPDF().WithPrintBackground(true).Do(ctx)
+			pdfData, _, err = page.PrintToPDF().WithPrintBackground(true).Do(ctx)
 			return err
 		}),
 	)
@@ -58,5 +59,6 @@ func (g *HtmlGenerator) GenerateFromTemplate(tpl string, vars map[string]string)
 		return nil, fmt.Errorf("chromedp run failed: %w", err)
 	}
 
-	return pdfBuf, nil
+	// 🗃️ Return generated PDF as byte slice
+	return pdfData, nil
 }
