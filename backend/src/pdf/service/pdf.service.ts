@@ -1,5 +1,5 @@
 import { GeneratePdfRequestDto } from '@backend/pdf/service/generatePdfRequest.dto';
-import { TemplateType } from '@backend/template/templateType.enum';
+import { TemplateType } from '@backend/template/service/templateType.enum';
 import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
