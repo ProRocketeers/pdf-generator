@@ -1,6 +1,6 @@
 import { CreatePdfRequestDto } from '@backend/pdf/createPdfRequest.dto'
 import { PdfService } from '@backend/pdf/service/pdf.service'
-import { GetTemplateService } from '@backend/template/getTemplateService'
+import { GetTemplateService } from '@backend/template/service/getTemplate.service'
 import { Body, Controller, Post, StreamableFile } from '@nestjs/common'
 import { ApiBody } from '@nestjs/swagger'
 
@@ -13,21 +13,8 @@ export class PdfController {
 
   @Post()
   @ApiBody({
+    description: 'Request to create a PDF from a template',
     type: CreatePdfRequestDto,
-    examples: {
-      'default': {
-        value: {
-          templateId: "58467411-5729-488e-88cf-30bbf239fbe7",
-          variables: {
-            amount: "100.00",
-            currency: "EUR",
-            date: "2025-05-04",
-            name: "Ondra Doe",
-            reference: "ABC123"
-          }
-        }
-      },
-    }
   })
   async createPdf(
     @Body() createPdfRequestDto: CreatePdfRequestDto,

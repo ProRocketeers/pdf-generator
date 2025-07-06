@@ -1,5 +1,5 @@
-import { Template } from '@backend/template/template.entity';
-import { TemplateType } from '@backend/template/templateType.enum';
+import { Template } from '@backend/template/service/template.entity';
+import { TemplateType } from '@backend/template/service/templateType.enum';
 import type { Dictionary, EntityManager } from '@mikro-orm/core';
 import { Seeder } from '@mikro-orm/seeder';
 

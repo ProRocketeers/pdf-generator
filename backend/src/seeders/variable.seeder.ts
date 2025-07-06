@@ -1,5 +1,5 @@
-import { Variable } from '@backend/template/variable.entity';
-import { VariableType } from '@backend/template/variableType.enum';
+import { Variable } from '@backend/template/service/variable.entity';
+import { VariableType } from '@backend/template/service/variableType.enum';
 import type { Dictionary, EntityManager } from '@mikro-orm/core';
 import { Seeder } from '@mikro-orm/seeder';
 
