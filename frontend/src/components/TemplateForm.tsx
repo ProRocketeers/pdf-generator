@@ -1,5 +1,5 @@
-import { getTemplate } from '@/app/actions/getTemplate'
-import Template from "@/app/components/Template"
+import { getTemplate } from '@/actions/template'
+import Template from "@/components/Template"
 import { Box } from '@mui/material'
 
 export default async function TemplateForm({ templateId }: { templateId: string }) {

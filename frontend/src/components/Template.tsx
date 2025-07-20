@@ -2,18 +2,15 @@
 
 import { Box, Typography, Button, Paper, Grid, TextField } from '@mui/material'
 import { SubmitHandler, useForm } from "react-hook-form"
-import { postVariables } from '@/app/actions/postVariables'
+import { generatePdf } from '@/actions/pdf'
 import { useState } from 'react'
+import { Template as TemplateType } from '@/types'
 
-export interface Variables {
-  amount: string
-  currency: string
-  date: string
-  name: string
-  reference: string
+export interface TemplateProps {
+  template: TemplateType
 }
 
-export default function Template({ template }: any) {
+export default function Template({ template }: TemplateProps) {
   const fieldTypeMapper = new Map<string, string>([
     ['string', 'text'],
     ['number', 'number'],
@@ -27,10 +24,10 @@ export default function Template({ template }: any) {
 
   const [isLoading, setLoading] = useState(false)
 
-  const onSubmit: SubmitHandler<any> = async (variables: Variables) => {
+  const onSubmit: SubmitHandler<Record<string, string>> = async (variables) => {
     setLoading(true)
 
-    await postVariables(template.id, variables).then((pdf: Blob) => {
+    await generatePdf(template.id, variables).then((pdf: Blob) => {
       const url = URL.createObjectURL(pdf)
       const link = document.createElement('a')
       link.href = url

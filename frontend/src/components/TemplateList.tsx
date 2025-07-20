@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
-import { getTemplates } from '@/app/actions/getTemplates'
-import TemplateSwiper from '@/app/components/TemplateSwiper'
+import { getTemplates } from '@/actions/template'
+import TemplateSwiper from '@/components/TemplateSwiper'
 
 export default async function TemplateList() {
   const templates = await getTemplates()
