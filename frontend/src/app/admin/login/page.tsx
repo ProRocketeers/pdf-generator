@@ -1,55 +1,59 @@
 'use client'
 
-import { useState } from 'react'
+import { signIn, getSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import {
   Box,
   Card,
   CardContent,
-  TextField,
   Button,
   Typography,
   Alert,
   Container,
-  InputAdornment,
-  IconButton,
   CircularProgress,
 } from '@mui/material'
 import {
-  Visibility,
-  VisibilityOff,
   AdminPanelSettings as AdminIcon,
-  Lock as LockIcon,
+  Google as GoogleIcon,
 } from '@mui/icons-material'
 
-// Heslo natvrdo - v produkci by mělo být v environment variables
-const ADMIN_PASSWORD = 'admin123'
-
 export default function AdminLoginPage() {
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
+  const [error, setError] = useState('')
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  useEffect(() => {
+    // Zkontroluj, zda už není uživatel přihlášený
+    const checkSession = async () => {
+      const session = await getSession()
+      if (session) {
+        router.push('/admin')
+      }
+    }
+    checkSession()
+  }, [router])
+
+  const handleGoogleSignIn = async () => {
     setLoading(true)
     setError('')
 
-    // Simulace delay pro autentizaci
-    await new Promise(resolve => setTimeout(resolve, 500))
+    try {
+      const result = await signIn('google', {
+        callbackUrl: '/admin',
+        redirect: false,
+      })
 
-    if (password === ADMIN_PASSWORD) {
-      // Nastav cookie pro autentizaci
-      document.cookie = 'admin-auth=authenticated; path=/; max-age=86400' // 24 hodin
-
-      router.push('/admin')
-    } else {
-      setError('Nesprávné heslo')
+      if (result?.error) {
+        setError('Přihlášení se nezdařilo. Ujistěte se, že používáte email z našeho workspace.')
+      } else if (result?.url) {
+        router.push(result.url)
+      }
+    } catch (error) {
+      setError('Došlo k chybě při přihlášení.')
+    } finally {
+      setLoading(false)
     }
-
-    setLoading(false)
   }
 
   return (
@@ -59,7 +63,7 @@ export default function AdminLoginPage() {
       left: 0,
       width: '100%',
       height: '100%',
-      display: 'flex', 
+      display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -81,7 +85,7 @@ export default function AdminLoginPage() {
                 Admin Panel
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Zadejte heslo pro přístup k administraci
+                Přihlaste se pomocí Google účtu z našeho workspace
               </Typography>
             </Box>
 
@@ -91,58 +95,28 @@ export default function AdminLoginPage() {
               </Alert>
             )}
 
-            <form onSubmit={handleSubmit}>
-              <TextField
-                fullWidth
-                type={showPassword ? 'text' : 'password'}
-                label="Admin heslo"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={loading}
-                autoFocus
-                sx={{ mb: 3 }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LockIcon color="action" />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setShowPassword(!showPassword)}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                size="large"
-                sx={{
-                  py: 2,
-                  fontSize: '1.1rem',
-                  background: 'linear-gradient(45deg, #667eea 30%, #764ba2 90%)',
-                  '&:hover': {
-                    background: 'linear-gradient(45deg, #5a6fd8 30%, #6a4190 90%)',
-                  }
-                }}
-                startIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}
-              >
-                {loading ? 'Ověřuji...' : 'Přihlásit se'}
-              </Button>
-            </form>
+            <Button
+              fullWidth
+              variant="contained"
+              size="large"
+              onClick={handleGoogleSignIn}
+              disabled={loading}
+              sx={{
+                py: 2,
+                fontSize: '1.1rem',
+                background: 'linear-gradient(45deg, #667eea 30%, #764ba2 90%)',
+                '&:hover': {
+                  background: 'linear-gradient(45deg, #5a6fd8 30%, #6a4190 90%)',
+                }
+              }}
+              startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <GoogleIcon />}
+            >
+              {loading ? 'Přihlašuji...' : 'Přihlásit se přes Google'}
+            </Button>
 
             <Box sx={{ mt: 3, textAlign: 'center' }}>
               <Typography variant="caption" color="text.secondary">
-                Pro demo účely: heslo je "admin123"
+                Pouze uživatelé z našeho Google Workspace
               </Typography>
             </Box>
           </CardContent>
