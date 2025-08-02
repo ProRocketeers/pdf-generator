@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material'
 
-interface DeleteConfirmDialogProps {
+interface ConfirmDialogProps {
   open: boolean
   title?: string
   message: string
@@ -18,16 +18,16 @@ interface DeleteConfirmDialogProps {
   loading?: boolean
 }
 
-export default function DeleteConfirmDialog({
+export default function ConfirmDialog({
   open,
-  title = 'Confirm Delete',
+  title,
   message,
-  confirmText = 'Delete',
+  confirmText = 'Confirm',
   cancelText = 'Cancel',
   onClose,
   onConfirm,
   loading = false
-}: DeleteConfirmDialogProps) {
+}: ConfirmDialogProps) {
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>{title}</DialogTitle>

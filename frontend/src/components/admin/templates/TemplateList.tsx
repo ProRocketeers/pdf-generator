@@ -5,7 +5,7 @@ import { Alert } from '@mui/material'
 import { Template, DeleteDialogState } from '@/types'
 import { deleteTemplate } from '@/actions/template'
 import TemplatesTable from '@/components/admin/templates/tables/TemplatesTable'
-import DeleteConfirmDialog from '@/components/DeleteConfirmDialog'
+import ConfirmDialog from '@/components/ConfirmDialog'
 import { useRouter } from 'next/navigation'
 
 interface TemplateListProps {
@@ -71,9 +71,11 @@ export default function TemplateList({
       />
 
       {/* Delete Confirmation Dialog */}
-      <DeleteConfirmDialog
+      <ConfirmDialog
         open={deleteDialog.open}
+        title="Confirm Delete Template"
         message={`Are you sure you want to delete template "${deleteDialog.entity?.title}"? This action cannot be undone.`}
+        confirmText="Delete"
         onClose={() => setDeleteDialog({ open: false, entity: null })}
         onConfirm={() => deleteDialog.entity && handleDelete(deleteDialog.entity)}
         loading={isDeleting}
