@@ -1,32 +1,32 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { ReactNode, useState } from 'react'
+import { useSession, signOut } from 'next-auth/react'
 import {
   AppBar,
   Toolbar,
   Typography,
-  Button,
-  Box,
   IconButton,
   Menu,
   MenuItem,
   Divider,
+  Avatar,
+  Box,
 } from '@mui/material'
 import {
   AdminPanelSettings as AdminIcon,
-  Logout as LogoutIcon,
   AccountCircle as AccountIcon,
+  Logout as LogoutIcon,
 } from '@mui/icons-material'
 
 interface AdminLayoutProps {
-  children: React.ReactNode
+  children: ReactNode
   title?: string
 }
 
 export default function AdminLayout({ children, title = 'Admin Panel' }: AdminLayoutProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const router = useRouter()
+  const { data: session, status } = useSession()
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -36,47 +36,68 @@ export default function AdminLayout({ children, title = 'Admin Panel' }: AdminLa
     setAnchorEl(null)
   }
 
-  const handleLogout = () => {
-    document.cookie = 'admin-auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
-
-    router.push('/admin/login')
+  const handleLogout = async () => {
     handleMenuClose()
+    await signOut({ callbackUrl: '/admin/login' })
+  }
+
+  if (status === 'loading') {
+    return <div>Loading...</div>
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'grey.50' }}>
-      <AppBar position="sticky" sx={{
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
-      }}>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
         <Toolbar>
           <AdminIcon sx={{ mr: 2 }} />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {title}
           </Typography>
-          
+
+          {/* User info section */}
+          {session?.user && (
+            <Box sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
+              <Box sx={{ textAlign: 'right', mr: 2 }}>
+                <Typography variant="body2" sx={{ color: 'white', fontWeight: 500 }}>
+                  {session.user.name || 'Neznámý uživatel'}
+                </Typography>
+                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)' }}>
+                  {session.user.email}
+                </Typography>
+              </Box>
+            </Box>
+          )}
+
           <IconButton
             size="large"
             edge="end"
             onClick={handleMenuOpen}
             color="inherit"
+            sx={{ p: 0.5 }}
           >
-            <AccountIcon />
+            {session?.user?.image ? (
+              <Avatar
+                src={session.user.image}
+                alt={session.user.name || 'User'}
+                sx={{ width: 40, height: 40 }}
+              />
+            ) : (
+              <Avatar sx={{ width: 40, height: 40, bgcolor: 'rgba(255,255,255,0.2)' }}>
+                {session?.user?.name?.charAt(0).toUpperCase() || 'U'}
+              </Avatar>
+            )}
           </IconButton>
-          
+
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            PaperProps={{
+              sx: { minWidth: 250 }
+            }}
           >
-            <MenuItem disabled>
-              <Typography variant="body2" color="text.secondary">
-                Administrátor
-              </Typography>
-            </MenuItem>
-            <Divider />
             <MenuItem onClick={handleLogout}>
               <LogoutIcon sx={{ mr: 1 }} fontSize="small" />
               Odhlásit se
@@ -85,7 +106,7 @@ export default function AdminLayout({ children, title = 'Admin Panel' }: AdminLa
         </Toolbar>
       </AppBar>
 
-      <Box sx={{ p: 3 }}>
+      <Box component="main" sx={{ p: 3 }}>
         {children}
       </Box>
     </Box>

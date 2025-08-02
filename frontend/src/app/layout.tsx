@@ -3,6 +3,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
 import { Container, CssBaseline, ThemeProvider } from "@mui/material"
 import theme from "@/app/theme"
 import { version } from '../../package.json'
+import { SessionProvider } from '@/components/providers/SessionProvider'
 
 // TODO: Fill up correct metadata + favicon when provided
 export const metadata: Metadata = {
@@ -18,12 +19,14 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
+        <SessionProvider>
+          <AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
               {children}
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </SessionProvider>
         {version}
       </body>
     </html>
