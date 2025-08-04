@@ -34,7 +34,7 @@ export default function AdminLoginPage() {
       }
     }
     checkSession()
-  }, [router])
+  }, [router, basePath])
 
   const handleGoogleSignIn = async () => {
     setLoading(true)

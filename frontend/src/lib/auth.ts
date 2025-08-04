@@ -1,36 +1,42 @@
 import { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 
-const nextAuthUrl = process.env.NEXTAUTH_URL
-
 export const authOptions: NextAuthOptions = {
+  debug: true, // Pro detailní logy
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
         params: {
-          hd: process.env.GOOGLE_WORKSPACE_DOMAIN, // prorocketeers.com
-          redirect_uri: `${nextAuthUrl}/api/auth/callback/google`,
+          hd: process.env.GOOGLE_WORKSPACE_DOMAIN,
         },
       },
     }),
   ],
   callbacks: {
-    async signIn({ user, account }) {
+    async signIn({ user, account, profile }) {
+      console.log('SignIn callback:', { user, account, profile })
+      
       if (account?.provider === "google") {
         const email = user.email
         const allowedDomain = process.env.GOOGLE_WORKSPACE_DOMAIN
+        
+        console.log('Domain validation:', { 
+          email, 
+          allowedDomain, 
+          isValid: email && allowedDomain && email.endsWith(`@${allowedDomain}`)
+        })
 
         if (email && allowedDomain && email.endsWith(`@${allowedDomain}`)) {
           return true
         }
+        console.log('❌ Domain validation failed')
         return false
       }
       return true
     },
     async jwt({ token, user }) {
-      // Při prvním přihlášení uložíme údaje do tokenu
       if (user) {
         token.name = user.name
         token.email = user.email
@@ -39,7 +45,6 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     async session({ session, token }) {
-      // Předáme údaje ze session
       if (token && session.user) {
         session.user.name = token.name
         session.user.email = token.email
