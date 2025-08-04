@@ -19,6 +19,8 @@ import {
 } from '@mui/icons-material'
 
 export default function AdminLoginPage() {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
@@ -28,7 +30,7 @@ export default function AdminLoginPage() {
     const checkSession = async () => {
       const session = await getSession()
       if (session) {
-        router.push('/admin')
+        router.push(`${basePath}/admin`)
       }
     }
     checkSession()
@@ -40,7 +42,7 @@ export default function AdminLoginPage() {
 
     try {
       const result = await signIn('google', {
-        callbackUrl: '/admin',
+        callbackUrl: `${basePath}/admin`,
         redirect: false,
       })
 
