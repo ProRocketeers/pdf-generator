@@ -42,7 +42,6 @@ export default function TemplateList({
       setTemplates(prev => prev.filter(t => t.id !== template.id))
       setDeleteDialog({ open: false, entity: null })
     } catch (err) {
-      console.error('Failed to delete template:', err)
       setError(err instanceof Error ? err.message : 'Failed to delete template')
     } finally {
       setIsDeleting(false)

@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
-import { Container, CssBaseline, ThemeProvider } from "@mui/material"
+import { CssBaseline, ThemeProvider } from "@mui/material"
 import theme from "@/app/theme"
 import { version } from '../../package.json'
 import { SessionProvider } from '@/components/providers/SessionProvider'

@@ -46,7 +46,7 @@ export default function TemplateForm({
     }
 
     onChange(formData)
-  }, [formData, onChange])
+  }, [formData, onChange, isInitialRender])
 
   const handleInputChange = (field: string, value: any) => {
     setFormData(prev => ({

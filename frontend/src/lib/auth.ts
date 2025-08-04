@@ -14,7 +14,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       if (account?.provider === "google") {
         const email = user.email
         const allowedDomain = process.env.GOOGLE_WORKSPACE_DOMAIN
@@ -26,7 +26,7 @@ export const authOptions: NextAuthOptions = {
       }
       return true
     },
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, user }) {
       // Při prvním přihlášení uložíme údaje do tokenu
       if (user) {
         token.name = user.name

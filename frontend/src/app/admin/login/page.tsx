@@ -49,7 +49,7 @@ export default function AdminLoginPage() {
       } else if (result?.url) {
         router.push(result.url)
       }
-    } catch (error) {
+    } catch {
       setError('Došlo k chybě při přihlášení.')
     } finally {
       setLoading(false)

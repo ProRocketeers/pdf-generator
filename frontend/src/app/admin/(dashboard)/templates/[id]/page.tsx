@@ -27,7 +27,6 @@ export default async function TemplateDetailPage({ params }: PageProps) {
   try {
     template = await getTemplate(id)
   } catch (err) {
-    console.error('Failed to fetch template:', err)
     if (err instanceof Error && err.message.includes('404')) {
       notFound()
     }

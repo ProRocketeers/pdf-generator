@@ -2,7 +2,6 @@
 
 import {
   Box,
-  Container,
   Typography,
   Button,
 } from '@mui/material'
@@ -26,7 +25,6 @@ export default async function AdminTemplatesPage() {
   try {
     templates = await getTemplates()
   } catch (err) {
-    console.error('Failed to fetch templates:', err)
     error = err instanceof Error ? err.message : 'Failed to load templates'
   }
 

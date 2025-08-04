@@ -9,13 +9,11 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Divider,
   Avatar,
   Box,
 } from '@mui/material'
 import {
   AdminPanelSettings as AdminIcon,
-  AccountCircle as AccountIcon,
   Logout as LogoutIcon,
 } from '@mui/icons-material'
 

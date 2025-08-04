@@ -7,7 +7,6 @@ import {
   Box,
   Chip,
   Stack,
-  Grid,
   Button,
   ButtonGroup,
   ClickAwayListener,
@@ -28,7 +27,6 @@ import { useRouter } from 'next/navigation'
 import { Template, Variable } from '@/types'
 import { updateTemplate, createTemplate } from '@/actions/template'
 import TemplateForm from './forms/TemplateForm'
-import { clear } from 'console'
 import VariablesManager from './forms/VariablesManager/VariablesManager'
 import { createVariable, deleteVariable } from '@/actions/variables'
 
@@ -60,6 +58,31 @@ export default function TemplateDetail({
     setError(undefined)
   }
 
+
+  const handleSave = useCallback(async (templateData: Omit<Template, 'id'>) => {
+    if (!template) return
+
+    try {
+      setSaving(true)
+      clearError()
+
+      if (isEditMode) {
+        await updateTemplate(templateId, templateData)
+        setLastSaved(new Date())
+        setHasUnsavedChanges(false)
+      } else {
+        const { id } = await createTemplate(templateData)
+
+        router.push(`/admin/templates/${id}`)
+      }
+
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save template')
+    } finally {
+      setSaving(false)
+    }
+  }, [templateId, isEditMode, template, router])
+
   const handleChange = useCallback((templateData: Omit<Template, 'id'>) => {
     setTemplate(prev => ({
       ...prev,
@@ -72,34 +95,7 @@ export default function TemplateDetail({
     } else {
       setHasUnsavedChanges(true)
     }
-  }, [templateId, isEditMode])
-
-
-  const handleSave = useCallback(async (templateData: Omit<Template, 'id'>) => {
-    if (!template) return
-
-    try {
-      setSaving(true)
-      clearError()
-
-      if (isEditMode) {
-        console.log('Saving template:', templateId, templateData)
-        await updateTemplate(templateId, templateData)
-        setLastSaved(new Date())
-        setHasUnsavedChanges(false)
-      } else {
-        const { id } = await createTemplate(templateData)
-
-        router.push(`/admin/templates/${id}`)
-      }
-
-    } catch (err) {
-      console.error('Failed to save template:', err)
-      setError(err instanceof Error ? err.message : 'Failed to save template')
-    } finally {
-      setSaving(false)
-    }
-  }, [templateId, isEditMode])
+  }, [templateId, isEditMode, handleSave])
 
   const handleSaveAndBack = useCallback(async () => {
     try {
@@ -125,7 +121,6 @@ export default function TemplateDetail({
 
       router.push('/admin/templates')
     } catch (err) {
-      console.error(`Failed to ${isEditMode ? 'create' : 'save'} template:`, err)
       setError(err instanceof Error ? err.message : `Failed to ${isEditMode ? 'create' : 'save'} template`)
     } finally {
       setSaving(false)
