@@ -105,11 +105,13 @@ export default function TemplatesTable({
                 </Typography>
               </TableCell>
               <TableCell>
-                <Chip
-                  label={template.templateType.toUpperCase()}
-                  size="small"
-                  color={getTemplateTypeColor(template.templateType)}
-                />
+                {template.templateType && (
+                  <Chip
+                    label={template.templateType.toUpperCase()}
+                    size="small"
+                    color={getTemplateTypeColor(template.templateType)}
+                  />
+                )}
               </TableCell>
               <TableCell>
                 <Typography variant="body2">

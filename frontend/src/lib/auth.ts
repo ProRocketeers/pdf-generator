@@ -31,16 +31,16 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.name = user.name
         token.email = user.email
-        token.picture = user.image
+        token.image = user.image
       }
       return token
     },
     async session({ session, token }) {
       // Předáme údaje ze session
-      if (token) {
+      if (token && session.user) {
         session.user.name = token.name
         session.user.email = token.email
-        session.user.image = token.picture as string
+        session.user.image = token.image as string
       }
       return session
     },

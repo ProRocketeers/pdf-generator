@@ -52,7 +52,7 @@ export default function Template({ template }: TemplateProps) {
         </Box>
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <Grid container spacing={2} mt={2}>
-            {template.variables.map((variable: any, index: number) => (
+            {(template.variables || []).map((variable: any, index: number) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
                 <TextField
                   {...register(variable.name)}

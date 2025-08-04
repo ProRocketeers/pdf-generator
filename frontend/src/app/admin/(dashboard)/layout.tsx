@@ -19,10 +19,9 @@ import {
 
 interface AdminLayoutProps {
   children: ReactNode
-  title?: string
 }
 
-export default function AdminLayout({ children, title = 'Admin Panel' }: AdminLayoutProps) {
+export default function AdminLayout({ children }: AdminLayoutProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const { data: session, status } = useSession()
 
@@ -49,7 +48,7 @@ export default function AdminLayout({ children, title = 'Admin Panel' }: AdminLa
         <Toolbar>
           <AdminIcon sx={{ mr: 2 }} />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {title}
+            Admin Panel
           </Typography>
 
           {/* User info section */}
