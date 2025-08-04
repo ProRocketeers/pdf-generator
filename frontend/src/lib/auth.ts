@@ -1,6 +1,9 @@
 import { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+const nextAuthUrl = process.env.NEXTAUTH_URL
+
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -9,6 +12,7 @@ export const authOptions: NextAuthOptions = {
       authorization: {
         params: {
           hd: process.env.GOOGLE_WORKSPACE_DOMAIN, // prorocketeers.com
+          redirect_uri: `${nextAuthUrl + basePath}/api/auth/callback/google`,
         },
       },
     }),
@@ -18,7 +22,7 @@ export const authOptions: NextAuthOptions = {
       if (account?.provider === "google") {
         const email = user.email
         const allowedDomain = process.env.GOOGLE_WORKSPACE_DOMAIN
-        
+
         if (email && allowedDomain && email.endsWith(`@${allowedDomain}`)) {
           return true
         }
