@@ -17,14 +17,14 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account, profile }) {
       console.log('SignIn callback:', { user, account, profile })
-      
+
       if (account?.provider === "google") {
         const email = user.email
         const allowedDomain = process.env.GOOGLE_WORKSPACE_DOMAIN
-        
-        console.log('Domain validation:', { 
-          email, 
-          allowedDomain, 
+
+        console.log('Domain validation:', {
+          email,
+          allowedDomain,
           isValid: email && allowedDomain && email.endsWith(`@${allowedDomain}`)
         })
 
