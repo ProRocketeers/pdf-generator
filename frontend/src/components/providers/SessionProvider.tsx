@@ -11,7 +11,7 @@ export function SessionProvider({ children }: Props) {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
 
   return (
-    <NextAuthSessionProvider basePath={basePath}>
+    <NextAuthSessionProvider basePath={`${basePath}/api/auth`}>
       {children}
     </NextAuthSessionProvider>
   )
