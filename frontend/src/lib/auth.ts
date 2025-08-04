@@ -1,6 +1,8 @@
 import { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 
+const basePath = process.env.BASE_PATH || ''
+
 export const authOptions: NextAuthOptions = {
   debug: true, // Pro detailní logy
   providers: [
@@ -54,7 +56,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: '/admin/login',
+    signIn: `${basePath}/admin/login`,
   },
   session: {
     strategy: "jwt",

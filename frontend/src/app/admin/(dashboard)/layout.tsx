@@ -22,6 +22,8 @@ interface AdminLayoutProps {
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+  
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const { data: session, status } = useSession()
 
@@ -35,7 +37,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   const handleLogout = async () => {
     handleMenuClose()
-    await signOut({ callbackUrl: '/admin/login' })
+    await signOut({ callbackUrl: `${basePath}/admin/login` })
   }
 
   if (status === 'loading') {
