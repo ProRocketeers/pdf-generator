@@ -95,7 +95,7 @@ export default function TemplateDetail({
     } else {
       setHasUnsavedChanges(true)
     }
-  }, [templateId, isEditMode, handleSave])
+  }, [templateId, isEditMode])
 
   const handleSaveAndBack = useCallback(async () => {
     try {

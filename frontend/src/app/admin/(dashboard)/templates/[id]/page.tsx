@@ -1,9 +1,7 @@
 'use server'
 
 import {
-  Container,
   Typography,
-  Box,
   Paper,
 } from '@mui/material'
 import { getTemplate } from '@/actions/template'
@@ -11,6 +9,7 @@ import Breadcrumbs from '@/components/Breadcrumbs'
 import { notFound } from 'next/navigation'
 import TemplateDetail from '@/components/admin/templates/TemplateDetail'
 import { Template } from '@/types'
+import AdminPage from '@/components/admin/page/AdminPage'
 
 interface PageProps {
   params: Promise<{
@@ -40,18 +39,22 @@ export default async function TemplateDetailPage({ params }: PageProps) {
   ]
 
   return (
-    <Container maxWidth="lg">
-      <Breadcrumbs items={breadcrumbItems} />
 
-      <Box sx={{ mt: 3, mb: 4 }}>
-        <Typography variant="h4" component="h1">
-          ✏️ {template?.title || 'Template'}
-        </Typography>
-        <Typography variant="subtitle1" color="text.secondary" sx={{ mt: 1 }}>
-          Real-time editing • Changes are saved automatically
-        </Typography>
-      </Box>
-
+    <AdminPage
+      breadcrumbs={
+        <Breadcrumbs items={breadcrumbItems} />
+      }
+      header={
+        <>
+          <Typography variant="h4" component="h1">
+            ✏️ {template?.title || 'Template'}
+          </Typography>
+          <Typography variant="subtitle1" color="text.secondary" sx={{ mt: 1 }}>
+            Real-time editing • Changes are saved automatically
+          </Typography>
+        </>
+      }
+    >
       <Paper elevation={1} sx={{ p: 3 }}>
         <TemplateDetail
           templateId={id}
@@ -59,6 +62,6 @@ export default async function TemplateDetailPage({ params }: PageProps) {
           initialError={error}
         />
       </Paper>
-    </Container>
+    </AdminPage>
   )
 }

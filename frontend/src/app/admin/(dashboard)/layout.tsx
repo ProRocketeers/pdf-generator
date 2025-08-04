@@ -23,7 +23,7 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
-  
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const { data: session, status } = useSession()
 
@@ -45,7 +45,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <>
       <AppBar position="static">
         <Toolbar>
           <AdminIcon sx={{ mr: 2 }} />
@@ -105,9 +105,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </Toolbar>
       </AppBar>
 
-      <Box component="main" sx={{ p: 3 }}>
-        {children}
-      </Box>
-    </Box>
+      {children}
+    </>
   )
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
-import { CssBaseline, ThemeProvider } from "@mui/material"
+import { Container, CssBaseline, ThemeProvider, Typography } from "@mui/material"
 import theme from "@/app/theme"
 import packageJson from '../../package.json'
 import { SessionProvider } from '@/components/providers/SessionProvider'
@@ -27,7 +27,11 @@ export default async function RootLayout({
             </ThemeProvider>
           </AppRouterCacheProvider>
         </SessionProvider>
-        {packageJson.version}
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Typography variant="body2" color="textSecondary" align="center">
+            v{packageJson.version}
+          </Typography>
+        </Container>
       </body>
     </html>
   )

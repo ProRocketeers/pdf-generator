@@ -1,12 +1,12 @@
 'use client'
 
 import {
-  Container,
   Typography,
   Paper,
 } from '@mui/material'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import TemplateDetail from '@/components/admin/templates/TemplateDetail'
+import AdminPage from '@/components/admin/page/AdminPage'
 
 export default function CreateTemplatePage() {
 
@@ -17,16 +17,19 @@ export default function CreateTemplatePage() {
   ]
 
   return (
-    <Container maxWidth="lg">
-      <Breadcrumbs items={breadcrumbItems} sx={{ mb: 3 }} />
-
-      <Typography variant="h4" component="h1" sx={{ mb: 3 }}>
-        Create New Template
-      </Typography>
-
+    <AdminPage
+      breadcrumbs={
+        <Breadcrumbs items={breadcrumbItems} />
+      }
+      header={
+        <Typography variant="h4" component="h1">
+          Create New Template
+        </Typography>
+      }
+    >
       <Paper elevation={1} sx={{ p: 3 }}>
         <TemplateDetail />
       </Paper>
-    </Container>
+    </AdminPage>
   )
 }
