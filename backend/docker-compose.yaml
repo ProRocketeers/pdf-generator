@@ -1,21 +1,31 @@
+name: pdf-generator-backend
 services:
   postgres:
     image: postgres:16
-    container_name: pdg-generator-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: pdf-generator
+      POSTGRES_DB: pdf_generator
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: secret
     ports:
       - '5434:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      - pdg-generator
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: 'True'
+    ports:
+      - '5051:80'
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
 
 volumes:
   postgres_data:
-
-networks:
-  pdg-generator:
+  pgadmin_data:
