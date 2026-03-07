@@ -4,7 +4,8 @@ import { CommonModule } from '@backend/common/common.module'
 import { HealthModule } from '@backend/health/health.module'
 import { PdfModule } from '@backend/pdf/pdf.module'
 import { ConfigModule } from '@nestjs/config'
-import { Module } from '@nestjs/common'
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common'
+import { LoggerMiddleware } from '@backend/middlewares/logger.middleware'
 
 @Module({
   imports: [
@@ -16,4 +17,8 @@ import { Module } from '@nestjs/common'
     VariableModule,
   ],
 })
-export class AppModule { }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*')
+  }
+}
