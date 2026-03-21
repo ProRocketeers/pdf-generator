@@ -1,4 +1,4 @@
-import { EntityBase } from '@backend/common/database/base.entity'
+import { EntityBase } from '@backend/template/service/base.entity'
 import { TemplateType } from '@backend/template/service/templateType.enum'
 import { mapVariableToDto, Variable } from '@backend/template/service/variable.entity'
 import { Entity, Enum, OneToMany, Property, Cascade } from '@mikro-orm/core'

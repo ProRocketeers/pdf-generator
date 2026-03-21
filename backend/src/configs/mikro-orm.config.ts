@@ -1,46 +1,37 @@
-import { MikroOrmModuleOptions } from '@mikro-orm/nestjs/typings';
-import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { ConfigService } from '@nestjs/config';
-import 'dotenv/config';
+import { defineConfig } from '@mikro-orm/postgresql'
+import { TsMorphMetadataProvider } from '@mikro-orm/reflection'
+import * as dotenv from 'dotenv'
 
-const createConfigMicroOrm = (
-  configService: ConfigService | 'default',
-): MikroOrmModuleOptions => {
-  if (configService === 'default') {
-    configService = new ConfigService(process.env);
-  }
+dotenv.config()
 
-  const host = configService.get<string>('DB_HOST', '');
-  const useSSL = host !== 'localhost';
+const sslEnabledValues = new Set(['true', '1', 'yes', 'on'])
+const sslRequiredModes = new Set(['require', 'verify-ca', 'verify-full'])
 
-  return {
-    entities: ['./dist/**/**/*.entity.js'],
-    entitiesTs: ['./src/**/**/*.entity.ts'],
-    driver: PostgreSqlDriver,
-    host: configService.get<string>('DB_HOST', ''),
-    port: configService.get<number>('DB_PORT', 5432),
-    user: configService.get<string>('DB_USER', ''),
-    password: configService.get<string>('DB_PASSWORD', ''),
-    dbName: configService.get<string>('DB_NAME', ''),
-    driverOptions: {
-      connection: useSSL
-        ? {
-            ssl: {
-              rejectUnauthorized: false,
-            },
-          }
-        : {},
-    },
-    migrations: {
-      path: './dist/migrations',
-      pathTs: './src/migrations',
-    },
-    seeder: {
-      path: './dist/seeders',
-      pathTs: './src/seeders',
-      defaultSeeder: 'DatabaseSeeder',
-    },
-  };
-};
+const isSslEnabled =
+  sslEnabledValues.has(process.env.DB_SSL?.toLowerCase() ?? '') ||
+  sslRequiredModes.has(process.env.DB_SSL_MODE?.toLowerCase() ?? '')
 
-export default createConfigMicroOrm;
+export default defineConfig({
+  metadataProvider: TsMorphMetadataProvider,
+  entities: ['./dist/**/**/*.entity.js'],
+  entitiesTs: ['./src/**/**/*.entity.ts'],
+  dbName: process.env.DB_NAME,
+  host: process.env.DB_HOST,
+  port: +(process.env.DB_PORT || 5432),
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  driverOptions: isSslEnabled
+    ? { connection: { ssl: { rejectUnauthorized: false } } }
+    : {},
+  migrations: {
+    path: 'db/migrations',
+    pathTs: 'db/migrations',
+    glob: '!(*.d).{js,ts}',
+    emit: 'ts',
+  },
+  seeder: {
+    path: 'db/seeders',
+    pathTs: 'db/seeders',
+    defaultSeeder: 'DatabaseSeeder',
+  },
+})

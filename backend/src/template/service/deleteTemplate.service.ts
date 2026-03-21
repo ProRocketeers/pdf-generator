@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { Template } from './template.entity'
 import { InjectRepository } from '@mikro-orm/nestjs'
-import { EntityManager, SqlEntityRepository } from '@mikro-orm/postgresql'
+import { EntityManager, EntityRepository, SqlEntityRepository } from '@mikro-orm/postgresql'
 import { Variable } from './variable.entity'
 
 
@@ -9,14 +9,14 @@ import { Variable } from './variable.entity'
 export class DeleteTemplateService {
   constructor(
     @InjectRepository(Template)
-    private readonly templateRepository: SqlEntityRepository<Template>,
+    private readonly templateRepository: EntityRepository<Template>,
     @InjectRepository(Variable)
-    private readonly variableRepository: SqlEntityRepository<Variable>,
+    private readonly variableRepository: EntityRepository<Variable>,
     private readonly em: EntityManager,
   ) { }
 
   async deleteTemplate(id: string): Promise<void> {
-    const entity = await this.templateRepository.findOne(id)
+    const entity = await this.templateRepository.findOne({ id })
 
     if (!entity) {
       throw new HttpException(

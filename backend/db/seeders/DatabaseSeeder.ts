@@ -1,5 +1,5 @@
-import { TemplateSeeder } from '@backend/seeders/template.seeder';
-import { VariableSeeder } from '@backend/seeders/variable.seeder';
+import { TemplateSeeder } from 'db/seeders/TemplateSeeder';
+import { VariableSeeder } from 'db/seeders/VariableSeeder';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Seeder } from '@mikro-orm/seeder';
 
