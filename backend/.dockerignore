@@ -1,15 +1,24 @@
+# Dependencies and build outputs
 node_modules
 dist
-build
+coverage
+
+# Local temp/debug artifacts
+temp
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Environment and secrets
 .env
-.env.dist
-.env.local
-.env.example
-.env.*.local
+.env.*
+!.env.example
+
+# VCS and editor files
 .git
 .gitignore
+.DS_Store
 .vscode
-.idea
-*.iml
-Dockerfile*
-.dockerignore
+
+# Docs and local notes not needed for runtime image
+README.md

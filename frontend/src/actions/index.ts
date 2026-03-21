@@ -1,6 +1,6 @@
 'use server'
 
-const API_URL = process.env.API_URL as string
+const API_URL = process.env.NEXT_PUBLIC_API_URL as string
 
 // Custom error class for API errors
 class ApiError extends Error {
