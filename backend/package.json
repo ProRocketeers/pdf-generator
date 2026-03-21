@@ -20,9 +20,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "db:fresh": "npx mikro-orm migration:fresh --config './src/configs/mikro-orm.config.ts'",
     "db:fresh:seeded": "npx mikro-orm migration:fresh --seed --config './src/configs/mikro-orm.config.ts'",
-    "db:diff": "npx mikro-orm migration:create --config './src/configs/mikro-orm.config.ts'",
-    "db:migrate": "npx mikro-orm migration:up --config './src/configs/mikro-orm.config.ts'",
-    "db:seeder:create": "npx mikro-orm seeder:create --config './src/configs/mikro-orm.config.ts'"
+    "db:migration:create": "npx mikro-orm migration:create --config './src/configs/mikro-orm.config.ts'",
+    "db:migration:up": "npx mikro-orm migration:up --config './src/configs/mikro-orm.config.ts'",
+    "db:seed": "npx mikro-orm seeder:run --config './src/configs/mikro-orm.config.ts'"
   },
   "dependencies": {
     "@mikro-orm/cli": "^6.4.16",
@@ -38,6 +38,8 @@
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
     "dotenv": "^10.0.0",
     "pg": "^8.16.0",
     "reflect-metadata": "^0.2.2",
@@ -73,5 +75,5 @@
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.20.0"
   },
-  "packageManager": "pnpm@10.27.0+sha512.72d699da16b1179c14ba9e64dc71c9a40988cbdc65c264cb0e489db7de917f20dcf4d64d8723625f2969ba52d4b7e2a1170682d9ac2a5dcaeaab732b7e16f04a"
+  "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be"
 }
