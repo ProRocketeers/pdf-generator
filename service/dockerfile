@@ -40,6 +40,12 @@ ENV BASE_PATH=${BASE_PATH}
 
 COPY --from=builder /app/bin/pdf-generator .
 
+RUN groupadd --system app && useradd --system --gid app --home /app app \
+ && mkdir -p /app/temp \
+ && chown -R app:app /app
+
+USER app
+
 EXPOSE ${PORT}
 
 CMD ["./pdf-generator"]
