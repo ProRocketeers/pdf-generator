@@ -55,7 +55,7 @@ export class PdfService {
 
     if (!apiUrl) {
       throw new HttpException(
-        'API_URL is not configured',
+        'PDF_SERVICE_API_URL is not configured',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
