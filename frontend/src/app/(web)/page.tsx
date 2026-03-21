@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { Typography, Box, Container } from '@mui/material'
 import TemplateList from '@/components/TemplateList'
 import { Suspense } from 'react'
@@ -6,8 +5,6 @@ import TemplateForm from '@/components/TemplateForm'
 import TemplateListSkeleton from '../../components/TemplateListSkeleton'
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
-
   const { templateId } = await searchParams
 
   return (

@@ -1,6 +1,6 @@
 'use client'
 
-import { Card, CardHeader, CardContent, Button, Box, Typography } from '@mui/material'
+import { Card, CardHeader, CardContent, Button, Box } from '@mui/material'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { FreeMode } from 'swiper/modules'
 import 'swiper/css'
