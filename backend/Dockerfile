@@ -30,9 +30,7 @@ WORKDIR /app
 COPY --from=builder /app/ ./
 
 RUN addgroup -S app && adduser -S app -G app \
-	&& chmod +x /app/docker/entrypoint.sh \
-	&& mkdir -p /app/temp \
-	&& chown -R app:app /app/temp
+	&& chmod +x /app/docker/entrypoint.sh
 USER app
 
 ENV NODE_ENV=${NODE_ENV}
