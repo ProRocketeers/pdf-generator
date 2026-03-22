@@ -10,5 +10,5 @@ import "net/http"
 // @Router			/health [get]
 func GetHealth(response http.ResponseWriter, request *http.Request) {
 	response.WriteHeader(http.StatusOK)
-	response.Write([]byte("OK"))
+	response.Write([]byte("ok"))
 }

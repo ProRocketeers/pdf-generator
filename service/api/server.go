@@ -63,6 +63,7 @@ func PrepareServer(config *infrastracture.Config) (*Server, error) {
 
 	// Set up the router
 	server.Route(config.BasePath, func(r chi.Router) {
+		r.Get("/", routes.GetHealth)
 		r.Get("/health", routes.GetHealth)
 		r.Get("/metrics", routes.GetMetrics(config))
 		r.Get("/swagger*", httpSwagger.WrapHandler)
