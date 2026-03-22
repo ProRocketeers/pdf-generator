@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"path"
 	ourMiddleware "pdf-generator/api/middleware"
 	"pdf-generator/api/routes"
 	api_v1_generate "pdf-generator/api/routes/api/v1/generate"
@@ -61,19 +62,19 @@ func PrepareServer(config *infrastracture.Config) (*Server, error) {
 		docs.SwaggerInfo.Schemes = []string{"https"}
 	}
 
+	swaggerPath := path.Join(config.BasePath, "swagger", "index.html")
+
 	// Set up the router
 	server.Route(config.BasePath, func(r chi.Router) {
-		r.Get("/", routes.GetHealth)
+		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+			http.Redirect(w, r, swaggerPath, http.StatusTemporaryRedirect)
+		})
 		r.Get("/health", routes.GetHealth)
 		r.Get("/metrics", routes.GetMetrics(config))
-		r.Get("/swagger*", httpSwagger.WrapHandler)
 		r.Get("/swagger", func(w http.ResponseWriter, r *http.Request) {
-			originalPath := r.Header.Get("X-Original-Path")
-			if originalPath == "" {
-				originalPath = r.URL.Path
-			}
-			http.Redirect(w, r, originalPath+"/index.html", http.StatusMovedPermanently)
+			http.Redirect(w, r, swaggerPath, http.StatusTemporaryRedirect)
 		})
+		r.Get("/swagger*", httpSwagger.WrapHandler)
 		r.Route("/api", func(r chi.Router) {
 			r.Route("/v1/generate", func(r chi.Router) {
 				// TODO: Get service from params
