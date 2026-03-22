@@ -29,6 +29,16 @@ npx mikro-orm migration:up --config ./src/configs/mikro-orm.config.ts
 npx mikro-orm seeder:run --config ./src/configs/mikro-orm.config.ts
 ```
 
+## Environment Variables
+
+The environment variables required for local development are defined in the `.env.example` file. Copy this file to `.env` and update the values as needed:
+
+```shell
+cp .env.example .env
+```
+
+Make sure to review and update the variables in the `.env` file to match your local setup.
+
 ### Project setup
 
 ```bash

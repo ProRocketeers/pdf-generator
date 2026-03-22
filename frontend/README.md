@@ -18,6 +18,16 @@ The frontend is designed to be responsive and user-friendly, with a focus on pro
 | MUI           | Popular React UI framework that provides pre-designed components.      |
 | TypeScript    | Superset of JavaScript that adds static typing.                          |
 
+## Environment Variables
+
+The environment variables required for local development are defined in the `.env.example` file. Copy this file to `.env` and update the values as needed:
+
+```shell
+cp .env.example .env
+```
+
+Make sure to review and update the variables in the `.env` file to match your local setup.
+
 ## Getting Started
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
