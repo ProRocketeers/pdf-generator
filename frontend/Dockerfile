@@ -35,9 +35,7 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
-RUN addgroup -S app && adduser -S app -G app \
-	&& mkdir -p /app/temp \
-	&& chown -R app:app /app/temp
+RUN addgroup -S app && adduser -S app -G app
 USER app
 
 ENV NODE_ENV=${NODE_ENV}
