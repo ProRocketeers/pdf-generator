@@ -6,9 +6,9 @@ import { configureSwagger } from '@backend/configs/swagger.config'
 import { GlobalExceptionFilter } from '@backend/filters/global-exception.filter'
 
 async function bootstrap() {
-  const logger = new Logger('Bootstrap')
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
-  const port = Number(process.env.PORT || 3000)
+  const port = Number(process.env.PORT || 4000)
+  const logger = new Logger('Bootstrap')
 
   app.enableCors()
 
